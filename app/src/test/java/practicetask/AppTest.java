@@ -5,12 +5,19 @@ package practicetask;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import org.springframework.context.ApplicationContext;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
-
+@SpringBootTest
 public class AppTest {
-    @Test public void appHasAGreeting() {
-        App classUnderTest = new App();
-        assertNotNull("app should have a greeting", classUnderTest.getGreeting());
+
+    @Autowired
+    ApplicationContext context;
+
+    @Test
+    void contextLoads(ApplicationContext context) {
+        assertNotNull(context);
     }
 }
