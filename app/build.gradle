@@ -12,10 +12,12 @@ plugins {
     id 'org.springframework.boot' version '3.1.3'
     id 'io.spring.dependency-management' version '1.1.3'
     id "org.flywaydb.flyway" version "9.22.0"
+    id "org.openapi.generator" version "6.6.0"
 }
 
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'java'
+
 
 
 repositories {
@@ -33,6 +35,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web:3.1.3'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa:3.1.3'
     testImplementation 'org.springframework.boot:spring-boot-starter-test:3.1.3'
+
+    // https://mvnrepository.com/artifact/javax.annotation/javax.annotation-api
+    implementation 'javax.annotation:javax.annotation-api:1.3.2'
+
 }
 
 test {
@@ -54,3 +60,27 @@ application {
     mainClass = 'practicetask.App'
 }
 
+openApiGenerate {
+    generatorName.set("spring")
+    inputSpec.set("$rootDir/template-openAPI.json")
+    outputDir.set("$rootDir/generated")
+    apiPackage.set("practicetask")
+    modelPackage.set("practicetask")
+    globalProperties.set([
+        apis: "",
+    ])
+    configOptions = [    
+        library: "spring-cloud",
+        skipDefaultInterface: "true",
+        swaggerDocketConfig: "false",
+        unhandledException: "true",
+        booleanGetterPrefix: "is",
+        hideGenerationTimestamp: "true",
+        interfaceOnly: "true",    
+        dateLibrary: "java8",    
+        useBeanValidation: "false",    
+        openApiNullable: "false",    
+        documentationProvider : "none",    
+        annotationLibrary: "none"]
+
+}
