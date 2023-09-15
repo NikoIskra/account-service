@@ -34,7 +34,6 @@ public class Account {
     private String status;
 
     @Column(name = "created_at", insertable = false)
-    @CreationTimestamp
     private Timestamp createdAt;
 
     @Column(name = "updated_at")

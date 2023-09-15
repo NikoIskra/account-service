@@ -1,24 +1,20 @@
 package com.account.test;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import com.account.persistence.entity.Account;
 import com.account.persistence.repository.AccountRepository;
 
 
-@RunWith(SpringRunner.class)
 @DataJpaTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 public class JPAAccountTest {
@@ -45,8 +41,7 @@ public class JPAAccountTest {
   public void testDataPersists() {
     Account account = new Account("testmail", "testusername", "testpassword", "teststatus");
     accountRepository.save(account);
-    List<Account> accounts = accountRepository.findAll();
-    Account accountFromDB = accounts.get(0);
+    Account accountFromDB = accountRepository.findById(account.getId()).get();
     assertEquals(account.getId(), accountFromDB.getId());
     assertEquals(account.getUsername(), accountFromDB.getUsername());
     assertEquals(account.getPassword(), accountFromDB.getPassword());
@@ -56,15 +51,15 @@ public class JPAAccountTest {
   }
 
   @Test 
-  public void testCreateNullAccount() {
+  public void testInsertEmptyAccount() {
     Exception thrown = assertThrows(
       DataIntegrityViolationException.class,
-       () -> createNullAccount()
+       () -> insertEmptyAccount()
     );
   }
 
 
-  public void createNullAccount() {
+  public void insertEmptyAccount() {
     Account account = new Account();
     accountRepository.save(account);
   }
