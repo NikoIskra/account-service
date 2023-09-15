@@ -1,45 +1,54 @@
 package com.account.persistence.entity;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Optional;
 import java.util.UUID;
 
-import com.account.model.AccountDTO;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name= "account")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Account {
     
     @Id
     @GeneratedValue
     private UUID id;
     
+    @Column(nullable = false)
     private String email;
 
+    @Column(nullable = false)
     private String username;
 
+    @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
     private String status;
 
-    private LocalDateTime create_at;
+    @Column(name = "created_at", insertable = false)
+    @CreationTimestamp
+    private Timestamp createdAt;
 
+    @Column(name = "updated_at")
+    @UpdateTimestamp
+    private Timestamp updatedAt;
 
-    public Account(String email, String username, String password) {
+    public Account() {
+    }
+
+    public Account(String email, String username, String password, String status) {
         this.email = email;
         this.username = username;
         this.password = password;
+        this.status = status;
     }
 
     public UUID getId() {
@@ -82,10 +91,21 @@ public class Account {
         this.status = status;
     }
 
-    public Optional<AccountDTO> map(Object object) {
-        return null;
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     
-
 }
