@@ -1,0 +1,14 @@
+{
+    "type" : "object",
+    "properties" : {
+        "title": {
+            "type":"string"
+        },
+        "message": {
+            "type":"string"
+        },
+        "statusCode": {
+            "type":"string"
+        }
+    }
+}

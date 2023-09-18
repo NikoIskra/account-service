@@ -61,10 +61,10 @@ application {
 
 openApiGenerate {
     generatorName.set("spring")
-    inputSpec.set("$rootDir/template-openAPI.json")
+    inputSpec.set("$rootDir/OpenAPI/openAPI.json")
     outputDir.set("$rootDir/generated")
-    apiPackage.set("practicetask")
-    modelPackage.set("practicetask")
+    apiPackage.set("account")
+    modelPackage.set("account")
     globalProperties.set([
         apis: "",
     ])

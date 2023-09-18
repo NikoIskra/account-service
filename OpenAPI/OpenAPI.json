@@ -1,0 +1,77 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Spring boot template",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/v1/healthcheck": {
+      "get": {
+        "description": "Healthcheck endpoint",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/account": {
+      "post": {
+        "description": "Creates new account and stores it into database",
+        "requestBody": {
+          "description": "account to be added",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "newAccount.json"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "account.json"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request. Email must be present and valid, username must be over 5 characters long, password must be present and over 8 characters long (only numbers and characters)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "error.json"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict, email/username already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "error.json"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "error.json"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
