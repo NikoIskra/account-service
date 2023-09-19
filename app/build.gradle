@@ -64,11 +64,12 @@ openApiGenerate {
     inputSpec.set("$rootDir/OpenAPI/openAPI.json")
     outputDir.set("$rootDir/generated")
     apiPackage.set("account")
-    modelPackage.set("account")
+    modelPackage.set("com.account.model")
     globalProperties.set([
         apis: "",
     ])
     configOptions = [    
+        useTags: "true",
         library: "spring-cloud",
         skipDefaultInterface: "true",
         swaggerDocketConfig: "false",

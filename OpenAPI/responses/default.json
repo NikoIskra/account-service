@@ -1,0 +1,10 @@
+{
+    "description": "unexpected error",
+    "content": {
+        "application/json": {
+            "schema": {
+                "$ref": "../contentSchema/errorResponse.json"
+            }
+        }
+    }
+}

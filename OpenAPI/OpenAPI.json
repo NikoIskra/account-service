@@ -7,6 +7,9 @@
   "paths": {
     "/api/v1/healthcheck": {
       "get": {
+        "tags": [
+          "healthcheck"
+        ],
         "description": "Healthcheck endpoint",
         "responses": {
           "200": {
@@ -17,6 +20,9 @@
     },
     "/api/v1/account": {
       "post": {
+        "tags": [
+          "account"
+        ],
         "description": "Creates new account and stores it into database",
         "requestBody": {
           "description": "account to be added",
@@ -24,51 +30,23 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "newAccount.json"
+                "$ref": "contentSchema/accountCommand.json"
               }
             }
           }
         },
         "responses": {
           "201": {
-            "description": "Created",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "account.json"
-                }
-              }
-            }
+            "$ref": "responses/201Created.json"
           },
           "400": {
-            "description": "Bad request. Email must be present and valid, username must be over 5 characters long, password must be present and over 8 characters long (only numbers and characters)",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "error.json"
-                }
-              }
-            }
+            "$ref": "responses/400BadRequest.json"
           },
           "409": {
-            "description": "Conflict, email/username already exists",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "error.json"
-                }
-              }
-            }
+            "$ref": "responses/409Conflict.json"
           },
           "default": {
-            "description": "unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "error.json"
-                }
-              }
-            }
+            "$ref": "responses/default.json"
           }
         }
       }

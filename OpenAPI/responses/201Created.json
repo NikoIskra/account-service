@@ -1,0 +1,17 @@
+{
+    "description": "Created",
+    "headers" : {
+        "X-Location" : {
+            "schema" : {
+                "type" : "string"
+            }
+        }
+    },
+    "content": {
+        "application/json": {
+            "schema": {
+                "$ref": "../contentSchema/AccountDTO.json"
+            }
+        }
+    }
+}

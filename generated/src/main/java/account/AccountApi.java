@@ -5,9 +5,9 @@
  */
 package account;
 
-import account.Account;
-import account.Error;
-import account.NewAccount;
+import com.account.model.AccountCommand;
+import com.account.model.AccountDTO;
+import com.account.model.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,13 +21,13 @@ import java.util.Optional;
 import javax.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public interface DefaultApi {
+public interface AccountApi {
 
     /**
      * POST /api/v1/account
      * Creates new account and stores it into database
      *
-     * @param newAccount account to be added (required)
+     * @param accountCommand account to be added (required)
      * @return Created (status code 201)
      *         or Bad request. Email must be present and valid, username must be over 5 characters long, password must be present and over 8 characters long (only numbers and characters) (status code 400)
      *         or Conflict, email/username already exists (status code 409)
@@ -39,23 +39,8 @@ public interface DefaultApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    ResponseEntity<Account> apiV1AccountPost(
-         @RequestBody NewAccount newAccount
-    ) throws Exception;
-
-
-    /**
-     * GET /api/v1/healthcheck
-     * Healthcheck endpoint
-     *
-     * @return OK (status code 200)
-     */
-    @RequestMapping(
-        method = RequestMethod.GET,
-        value = "/api/v1/healthcheck"
-    )
-    ResponseEntity<Void> apiV1HealthcheckGet(
-        
+    ResponseEntity<AccountDTO> apiV1AccountPost(
+         @RequestBody AccountCommand accountCommand
     ) throws Exception;
 
 }
