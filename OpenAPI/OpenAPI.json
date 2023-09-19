@@ -1,0 +1,55 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Spring boot template",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/v1/healthcheck": {
+      "get": {
+        "tags": [
+          "healthcheck"
+        ],
+        "description": "Healthcheck endpoint",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/account": {
+      "post": {
+        "tags": [
+          "account"
+        ],
+        "description": "Creates new account and stores it into database",
+        "requestBody": {
+          "description": "account to be added",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "contentSchema/requestModel.json"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "$ref": "responses/201AccountCreated.json"
+          },
+          "400": {
+            "$ref": "responses/400AccountBadRequest.json"
+          },
+          "409": {
+            "$ref": "responses/409AccountConflict.json"
+          },
+          "default": {
+            "$ref": "responses/default.json"
+          }
+        }
+      }
+    }
+  }
+}

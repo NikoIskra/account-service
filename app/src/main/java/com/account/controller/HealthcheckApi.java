@@ -18,7 +18,7 @@ import java.util.Optional;
 import javax.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public interface DefaultApi {
+public interface HealthcheckApi {
 
     /**
      * GET /api/v1/healthcheck

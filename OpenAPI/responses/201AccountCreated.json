@@ -1,0 +1,17 @@
+{
+    "description": "Created",
+    "headers" : {
+        "Location" : {
+            "schema" : {
+                "type" : "string"
+            }
+        }
+    },
+    "content": {
+        "application/json": {
+            "schema": {
+                "$ref": "../contentSchema/returnModel.json"
+            }
+        }
+    }
+}

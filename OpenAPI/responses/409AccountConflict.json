@@ -1,0 +1,10 @@
+{
+    "description": "Conflict, email/username already exists",
+    "content": {
+        "application/json": {
+            "schema": {
+                "$ref": "../contentSchema/errorResponse.json"
+            }
+        }
+    }
+}
