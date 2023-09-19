@@ -2,6 +2,7 @@ package com.account.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.account.model.ReturnModelResult;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -13,18 +14,18 @@ import java.util.*;
 import javax.annotation.Generated;
 
 /**
- * ErrorResponse
+ * ReturnModel
  */
 
-@JsonTypeName("errorResponse")
+@JsonTypeName("returnModel")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class ErrorResponse {
+public class ReturnModel {
 
   private Boolean ok;
 
-  private String errorMessage;
+  private ReturnModelResult result;
 
-  public ErrorResponse ok(Boolean ok) {
+  public ReturnModel ok(Boolean ok) {
     this.ok = ok;
     return this;
   }
@@ -43,23 +44,23 @@ public class ErrorResponse {
     this.ok = ok;
   }
 
-  public ErrorResponse errorMessage(String errorMessage) {
-    this.errorMessage = errorMessage;
+  public ReturnModel result(ReturnModelResult result) {
+    this.result = result;
     return this;
   }
 
   /**
-   * Get errorMessage
-   * @return errorMessage
+   * Get result
+   * @return result
   */
   
-  @JsonProperty("errorMessage")
-  public String getErrorMessage() {
-    return errorMessage;
+  @JsonProperty("result")
+  public ReturnModelResult getResult() {
+    return result;
   }
 
-  public void setErrorMessage(String errorMessage) {
-    this.errorMessage = errorMessage;
+  public void setResult(ReturnModelResult result) {
+    this.result = result;
   }
 
   @Override
@@ -70,22 +71,22 @@ public class ErrorResponse {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ErrorResponse errorResponse = (ErrorResponse) o;
-    return Objects.equals(this.ok, errorResponse.ok) &&
-        Objects.equals(this.errorMessage, errorResponse.errorMessage);
+    ReturnModel returnModel = (ReturnModel) o;
+    return Objects.equals(this.ok, returnModel.ok) &&
+        Objects.equals(this.result, returnModel.result);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(ok, errorMessage);
+    return Objects.hash(ok, result);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ErrorResponse {\n");
+    sb.append("class ReturnModel {\n");
     sb.append("    ok: ").append(toIndentedString(ok)).append("\n");
-    sb.append("    errorMessage: ").append(toIndentedString(errorMessage)).append("\n");
+    sb.append("    result: ").append(toIndentedString(result)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -3,11 +3,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-package account;
+package com.account.controller;
 
-import com.account.model.AccountCommand;
-import com.account.model.AccountDTO;
 import com.account.model.ErrorResponse;
+import com.account.model.RequestModel;
+import com.account.model.ReturnModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +27,7 @@ public interface AccountApi {
      * POST /api/v1/account
      * Creates new account and stores it into database
      *
-     * @param accountCommand account to be added (required)
+     * @param requestModel account to be added (required)
      * @return Created (status code 201)
      *         or Bad request. Email must be present and valid, username must be over 5 characters long, password must be present and over 8 characters long (only numbers and characters) (status code 400)
      *         or Conflict, email/username already exists (status code 409)
@@ -39,8 +39,8 @@ public interface AccountApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    ResponseEntity<AccountDTO> apiV1AccountPost(
-         @RequestBody AccountCommand accountCommand
+    ResponseEntity<ReturnModel> apiV1AccountPost(
+         @RequestBody RequestModel requestModel
     ) throws Exception;
 
 }

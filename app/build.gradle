@@ -39,7 +39,7 @@ dependencies {
     implementation 'jakarta.validation:jakarta.validation-api:3.0.2'    // https://mvnrepository.com/artifact/com.h2database/h2
     testImplementation 'com.h2database:h2:2.2.222'
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-validation
-    implementation 'org.springframework.boot:spring-boot-starter-validation:3.1.3'
+    implementation 'javax.validation:validation-api:2.0.0.Final'
 }
 
 test {
@@ -64,25 +64,31 @@ application {
 openApiGenerate {
     generatorName.set("spring")
     inputSpec.set("$rootDir/OpenAPI/openAPI.json")
-    outputDir.set("$rootDir/generated")
-    apiPackage.set("account")
+    outputDir.set("$rootDir/app/")
+    apiPackage.set("com.account.controller")
     modelPackage.set("com.account.model")
-    globalProperties.set([
-        apis: "",
-    ])
-    configOptions = [    
-        useTags: "true",
-        library: "spring-cloud",
-        skipDefaultInterface: "true",
-        swaggerDocketConfig: "false",
-        unhandledException: "true",
-        booleanGetterPrefix: "is",
-        hideGenerationTimestamp: "true",
-        interfaceOnly: "true",    
-        dateLibrary: "java8",    
-        useBeanValidation: "false",    
-        openApiNullable: "false",    
-        documentationProvider : "none",    
-        annotationLibrary: "none"]
+    configOptions = [
+            useTags                : "true",
+            library                : "spring-cloud",
+            skipDefaultInterface   : "true",
+            swaggerDocketConfig    : "false",
+            unhandledException     : "true",
+            booleanGetterPrefix    : "is",
+            hideGenerationTimestamp: "true",
+            interfaceOnly          : "true",
+            dateLibrary            : "java8",
+            useBeanValidation      : "false",
+            openApiNullable        : "false",
+            documentationProvider  : "none",
+            annotationLibrary      : "none"]
 
+}
+tasks.openApiGenerate {
+    doLast {
+        delete(
+                "$rootDir/app/.openapi-generator",
+                "$rootDir/app/pom.xml",
+                "$rootDir/app/README.md",
+        )
+    }
 }
