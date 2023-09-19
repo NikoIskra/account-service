@@ -1,10 +1,8 @@
 package com.account.persistence.entity;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Column;
@@ -40,6 +38,7 @@ public class Account {
     @UpdateTimestamp
     private Timestamp updatedAt;
 
+    
     public Account() {
     }
 

@@ -37,13 +37,13 @@
         },
         "responses": {
           "201": {
-            "$ref": "responses/201Created.json"
+            "$ref": "responses/201AccountCreated.json"
           },
           "400": {
-            "$ref": "responses/400BadRequest.json"
+            "$ref": "responses/400AccountBadRequest.json"
           },
           "409": {
-            "$ref": "responses/409Conflict.json"
+            "$ref": "responses/409AccountConflict.json"
           },
           "default": {
             "$ref": "responses/default.json"

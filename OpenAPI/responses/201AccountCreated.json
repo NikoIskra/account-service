@@ -1,7 +1,7 @@
 {
     "description": "Created",
     "headers" : {
-        "X-Location" : {
+        "Location" : {
             "schema" : {
                 "type" : "string"
             }
