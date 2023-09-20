@@ -11,16 +11,20 @@ import com.account.model.ReturnModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Validated
 public interface AccountApi {
 
     /**
@@ -40,7 +44,7 @@ public interface AccountApi {
         consumes = { "application/json" }
     )
     ResponseEntity<ReturnModel> apiV1AccountPost(
-         @RequestBody RequestModel requestModel
+         @Valid @RequestBody RequestModel requestModel
     ) throws Exception;
 
 }

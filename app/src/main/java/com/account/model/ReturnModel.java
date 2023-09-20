@@ -7,11 +7,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.time.OffsetDateTime;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.*;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * ReturnModel
@@ -53,7 +55,7 @@ public class ReturnModel {
    * Get result
    * @return result
   */
-  
+  @Valid 
   @JsonProperty("result")
   public ReturnModelResult getResult() {
     return result;

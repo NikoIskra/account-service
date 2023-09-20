@@ -7,11 +7,13 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.UUID;
 import java.time.OffsetDateTime;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.*;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * ReturnModelResult
@@ -40,7 +42,7 @@ public class ReturnModelResult {
    * Get id
    * @return id
   */
-  
+  @Valid 
   @JsonProperty("id")
   public UUID getId() {
     return id;
@@ -59,7 +61,7 @@ public class ReturnModelResult {
    * Get email
    * @return email
   */
-  
+  @jakarta.validation.constraints.Email
   @JsonProperty("email")
   public String getEmail() {
     return email;

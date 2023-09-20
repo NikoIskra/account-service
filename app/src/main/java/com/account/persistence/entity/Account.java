@@ -42,6 +42,8 @@ public class Account {
     public Account() {
     }
 
+    
+
     public Account(String email, String username, String password, String status) {
         this.email = email;
         this.username = username;
