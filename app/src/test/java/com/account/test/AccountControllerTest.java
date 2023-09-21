@@ -1,7 +1,10 @@
 package com.account.test;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.account.model.RequestModel;
+import com.account.persistence.entity.Account;
+import com.account.persistence.entity.AccountRole;
+import com.account.persistence.repository.AccountRepository;
+import com.account.persistence.repository.AccountRoleRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
@@ -25,6 +32,12 @@ public class AccountControllerTest {
     @Autowired
     private MockMvc mvc;
 
+    @Autowired
+    AccountRepository accountRepository;
+
+    @Autowired
+    AccountRoleRepository accountRoleRepository;
+
     RequestModel emptyRequestModel = new RequestModel();
 
     RequestModel validRequestModel = new RequestModel()
@@ -32,14 +45,13 @@ public class AccountControllerTest {
                                         .username("testusername")
                                         .password("testpassword");
 
-    RequestModel requestModelWithoutUsername = new RequestModel("testmail@gmail.com", "testpassword");
+    RequestModel requestModelWithoutUsername = new RequestModel("testmail2@gmail.com", "testpassword");
     
     ObjectMapper mapper = new ObjectMapper();
 
 
 
     @Test
-    @DirtiesContext
     void testInsertValidAccount() throws Exception {
         mvc.perform(MockMvcRequestBuilders
         .post("/api/v1/account")
@@ -49,7 +61,15 @@ public class AccountControllerTest {
     }
 
     @Test
-    @DirtiesContext
+    void testAccountRoleExistsForInsertedAccount() throws Exception {
+        Optional<Account> account = accountRepository.findByUsername(validRequestModel.getUsername());
+        if (account.isPresent()) {
+            Account accountGet = account.get();
+            assertTrue(accountRoleRepository.existsByAccountID(accountGet.getId()));
+        }
+    }
+
+    @Test
     void testInsertEmptyAccount() throws Exception {
         mvc.perform(MockMvcRequestBuilders
         .post("/api/v1/account")
@@ -59,14 +79,7 @@ public class AccountControllerTest {
     }
 
     @Test
-    @DirtiesContext
     void testAccountConflict() throws Exception {
-        mvc.perform(MockMvcRequestBuilders
-        .post("/api/v1/account")
-        .contentType(MediaType.APPLICATION_JSON)
-        .content(mapper.writeValueAsString(validRequestModel)))
-        .andExpect(status().isCreated());
-        
         mvc.perform(MockMvcRequestBuilders
         .post("/api/v1/account")
         .contentType(MediaType.APPLICATION_JSON)

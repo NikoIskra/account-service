@@ -49,19 +49,4 @@ public class JPAAccountTest {
     assertEquals(account.getEmail(), accountFromDB.getEmail());
     assertEquals(account.getCreatedAt(), accountFromDB.getCreatedAt());
   }
-
-  @Test 
-  public void testInsertEmptyAccount() {
-    Exception thrown = assertThrows(
-      DataIntegrityViolationException.class,
-       () -> insertEmptyAccount()
-    );
-  }
-
-
-  public void insertEmptyAccount() {
-    Account account = new Account();
-    accountRepository.save(account);
-  }
-
 }

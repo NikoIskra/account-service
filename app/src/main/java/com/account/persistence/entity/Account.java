@@ -3,6 +3,7 @@ package com.account.persistence.entity;
 import java.sql.Timestamp;
 import java.util.UUID;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Column;
@@ -32,6 +33,7 @@ public class Account {
     private String status;
 
     @Column(name = "created_at", insertable = false)
+    @ColumnDefault("now()")
     private Timestamp createdAt;
 
     @Column(name = "updated_at")

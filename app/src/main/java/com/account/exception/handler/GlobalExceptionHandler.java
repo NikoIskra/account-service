@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.client.HttpServerErrorException.InternalServerError;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -46,6 +47,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         .ok(false)
         .errorMessage("validation failed");
         return new ResponseEntity<> (errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    protected ResponseEntity<ErrorResponse> handleInternalServerError(Exception ex) {
+        ErrorResponse errorResponse = new ErrorResponse()
+        .ok(false)
+        .errorMessage(ex.getMessage());
+        return new ResponseEntity<ErrorResponse> (errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }
