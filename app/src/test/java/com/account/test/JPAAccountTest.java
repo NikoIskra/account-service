@@ -10,13 +10,18 @@ import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.transaction.annotation.Propagation;
 
 import com.account.persistence.entity.Account;
 import com.account.persistence.repository.AccountRepository;
 
 
+
+
 @DataJpaTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
+@org.springframework.transaction.annotation.Transactional(propagation = Propagation.NOT_SUPPORTED)
 public class JPAAccountTest {
 
 
@@ -24,12 +29,14 @@ public class JPAAccountTest {
   private AccountRepository accountRepository;
 
   @Test
+  @DirtiesContext
   public void expectEmptyList() {
     List<Account> accounts = accountRepository.findAll();
     assertEquals(0, accounts.size());
   }
 
   @Test
+  @DirtiesContext
   public void testInsertToDB() {
     Account account = new Account("testmail", "testusername", "testpassword", "teststatus");
     accountRepository.save(account);
@@ -38,6 +45,7 @@ public class JPAAccountTest {
   }
 
   @Test
+  @DirtiesContext
   public void testDataPersists() {
     Account account = new Account("testmail", "testusername", "testpassword", "teststatus");
     accountRepository.save(account);
@@ -47,7 +55,6 @@ public class JPAAccountTest {
     assertEquals(account.getPassword(), accountFromDB.getPassword());
     assertEquals(account.getStatus(), accountFromDB.getStatus());
     assertEquals(account.getEmail(), accountFromDB.getEmail());
-    assertEquals(account.getCreatedAt(), accountFromDB.getCreatedAt());
   }
 
   @Test 

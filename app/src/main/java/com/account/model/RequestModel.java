@@ -6,11 +6,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.time.OffsetDateTime;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.*;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * RequestModel
@@ -52,7 +54,7 @@ public class RequestModel {
    * Get email
    * @return email
   */
-  @NotNull
+  @NotNull @jakarta.validation.constraints.Email
   @JsonProperty("email")
   public String getEmail() {
     return email;
@@ -71,7 +73,7 @@ public class RequestModel {
    * Get password
    * @return password
   */
-  @NotNull
+  @NotNull @Pattern(regexp = "^[a-zA-Z0-9]*$") @Size(min = 8) 
   @JsonProperty("password")
   public String getPassword() {
     return password;
@@ -90,7 +92,7 @@ public class RequestModel {
    * Get username
    * @return username
   */
-  
+  @Size(min = 5) 
   @JsonProperty("username")
   public String getUsername() {
     return username;
