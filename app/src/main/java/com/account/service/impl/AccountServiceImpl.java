@@ -1,8 +1,5 @@
 package com.account.service.impl;
 
-import java.sql.Timestamp;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.account.model.RequestModel;
@@ -13,8 +10,10 @@ import com.account.persistence.entity.AccountRole;
 import com.account.persistence.repository.AccountRepository;
 import com.account.persistence.repository.AccountRoleRepository;
 import com.account.service.AccountService;
-import com.account.service.ValidateAccountDataService;
+import com.account.service.AccountValidator;
+import com.account.service.RandomTextGenerator;
 
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -26,16 +25,17 @@ public class AccountServiceImpl implements AccountService {
 
     private final AccountRoleRepository accountRoleRepository;
 
-    private final ValidateAccountDataService validateAccountDataService;
+    private final AccountValidator accountValidator;
+
+    private final EntityManager entityManager;
 
     public ReturnModel mapAccountToReturnModel(Account account) {
-        Timestamp createdAtTimestamp = accountRepository.getCreatedAtTimestampFromID(account.getId());
         ReturnModelResult returnModelResult = new ReturnModelResult()
                 .id(account.getId())
                 .email(account.getEmail())
                 .username(account.getUsername())
                 .status(account.getStatus())
-                .createdAt(createdAtTimestamp.getTime());
+                .createdAt(account.getCreatedAt().getTime());
         return new ReturnModel().ok(true).result(returnModelResult);
     }
 
@@ -48,10 +48,17 @@ public class AccountServiceImpl implements AccountService {
     @Override
     @Transactional
     public ReturnModel save(RequestModel requestModel) {
-        validateAccountDataService.validateData(requestModel);
+        accountValidator.validateRequestData(requestModel);
+        if (requestModel.getUsername() == null) {
+            requestModel.setUsername(requestModel.getEmail().substring(0, requestModel.getEmail().indexOf('@')));
+        }
+        if (accountRepository.existsByUsername(requestModel.getUsername())) {
+            requestModel.setUsername(RandomTextGenerator.addRandomSuffixToUsername(requestModel.getUsername()));
+        }
         Account account = accountRepository.saveAndFlush(mapRequestModelToAccount(requestModel));
         AccountRole accountRole = new AccountRole(account.getId(), "client", "active");
         accountRoleRepository.saveAndFlush(accountRole);
+        entityManager.refresh(account);
         return mapAccountToReturnModel(account);
     }
 }

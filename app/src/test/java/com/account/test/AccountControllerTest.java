@@ -19,7 +19,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.account.model.RequestModel;
 import com.account.persistence.entity.Account;
-import com.account.persistence.entity.AccountRole;
 import com.account.persistence.repository.AccountRepository;
 import com.account.persistence.repository.AccountRoleRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;

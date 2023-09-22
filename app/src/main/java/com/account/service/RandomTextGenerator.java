@@ -5,10 +5,11 @@ import java.util.Random;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AddRandomSuffixToUsernameService {
+public class RandomTextGenerator {
 
-    public String addRandomSuffixToUsername(String username) {
-        final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    static String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    
+    public static String addRandomSuffixToUsername(String username) {
         Random random = new Random();
         StringBuilder sb = new StringBuilder(4);
 
