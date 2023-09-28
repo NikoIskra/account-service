@@ -34,8 +34,11 @@ public class AccountServiceImpl implements AccountService {
                 .id(account.getId())
                 .email(account.getEmail())
                 .username(account.getUsername())
-                .status(account.getStatus())
-                .createdAt(account.getCreatedAt().getTime());
+                .status(account.getStatus());
+        
+        if (account.getCreatedAt() != null) {
+            returnModelResult.setCreatedAt(account.getCreatedAt().getTime());
+        }
         return new ReturnModel().ok(true).result(returnModelResult);
     }
 
@@ -44,6 +47,7 @@ public class AccountServiceImpl implements AccountService {
                 "active");
         return account;
     }
+
 
     @Override
     @Transactional

@@ -1,4 +1,4 @@
-package com.account.test;
+package com.account.test.AccountTests.RepositoryTests;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 

@@ -3,6 +3,8 @@ package com.account.persistence.entity;
 import java.sql.Timestamp;
 import java.util.UUID;
 
+import org.hibernate.annotations.UpdateTimestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,6 +29,10 @@ public class AccountRole {
 
     @Column(name = "created_at", insertable = false)
     private Timestamp createdAt;
+
+    @Column(name = "updated_at")
+    @UpdateTimestamp
+    private Timestamp updatedAt;
 
     public AccountRole() {
     }
@@ -75,6 +81,14 @@ public class AccountRole {
 
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     

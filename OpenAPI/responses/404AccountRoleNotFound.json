@@ -1,0 +1,10 @@
+{
+    "description": "Account doesn't exist",
+    "content": {
+        "application/json": {
+            "schema": {
+                "$ref": "../contentSchema/errorResponse.json"
+            }
+        }
+    }
+}

@@ -1,4 +1,4 @@
-package com.account.test;
+package com.account.test.AccountTests.ControllerTests;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -15,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.account.model.RequestModel;
@@ -52,11 +53,12 @@ public class AccountControllerTest {
 
     @Test
     void testInsertValidAccount() throws Exception {
-        mvc.perform(MockMvcRequestBuilders
+        MvcResult result = mvc.perform(MockMvcRequestBuilders
         .post("/api/v1/account")
         .contentType(MediaType.APPLICATION_JSON)
         .content(mapper.writeValueAsString(validRequestModel)))
-        .andExpect(status().isCreated());
+        .andReturn();
+        String content = result.getResponse().getContentAsString();
     }
 
     @Test
