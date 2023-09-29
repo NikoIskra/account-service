@@ -29,7 +29,7 @@ public class AccountServiceImpl implements AccountService {
 
     private final EntityManager entityManager;
 
-    public ReturnModel mapAccountToReturnModel(Account account) {
+    private ReturnModel mapAccountToReturnModel(Account account) {
         ReturnModelResult returnModelResult = new ReturnModelResult()
                 .id(account.getId())
                 .email(account.getEmail())
@@ -42,7 +42,7 @@ public class AccountServiceImpl implements AccountService {
         return new ReturnModel().ok(true).result(returnModelResult);
     }
 
-    public Account mapRequestModelToAccount(RequestModel requestModel) {
+    private Account mapRequestModelToAccount(RequestModel requestModel) {
         Account account = new Account(requestModel.getEmail(), requestModel.getUsername(), requestModel.getPassword(),
                 "active");
         return account;

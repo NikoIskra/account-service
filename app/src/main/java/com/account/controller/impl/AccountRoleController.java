@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.account.controller.RoleApi;
 import com.account.model.AccountRoleRequestModel;
 import com.account.model.AccountRoleReturnModel;
+import com.account.model.custom.Tuple2;
 import com.account.service.AccountRoleService;
 
 import jakarta.validation.Valid;
@@ -23,16 +24,16 @@ public class AccountRoleController implements RoleApi {
     private AccountRoleService accountRoleService;
 
     @Override
-    public ResponseEntity<AccountRoleReturnModel> apiV1AccountAccountIdRolePost(@PathVariable("account-id") UUID accountId,
+    public ResponseEntity<AccountRoleReturnModel> apiV1AccountAccountIdRolePost(
+            @PathVariable("account-id") UUID accountId,
             @Valid AccountRoleRequestModel accountRoleRequestModel) throws Exception {
-        Boolean accountExists = accountRoleService.existsByAccountIDAndRole(accountId, accountRoleRequestModel.getRole().getValue());
-        AccountRoleReturnModel accountRoleReturnModel = accountRoleService.save(accountId, accountRoleRequestModel);
+        Tuple2<AccountRoleReturnModel, Boolean> tuple2 = accountRoleService.save(accountId, accountRoleRequestModel);
         HttpHeaders returnHeaders = new HttpHeaders();
-        String headerString = "/api/v1/account/" + accountId.toString() + "/role/" + accountRoleReturnModel.getResult().getRole();
+        AccountRoleReturnModel accountRoleReturnModel = (AccountRoleReturnModel) tuple2.getFirst();
+        String headerString = "/api/v1/account/" + accountId.toString() + "/role/"
+                + accountRoleReturnModel.getResult().getRole();
         returnHeaders.set("Location", headerString);
-        if (accountExists) 
-        return ResponseEntity.status(HttpStatus.OK).headers(returnHeaders).body(accountRoleReturnModel);
-        else
-        return ResponseEntity.status(HttpStatus.CREATED).headers(returnHeaders).body(accountRoleReturnModel);
+        Integer statusCode = tuple2.getSecond() ? 200 : 201;
+        return ResponseEntity.status(HttpStatus.valueOf(statusCode)).headers(returnHeaders).body(accountRoleReturnModel);
     }
 }

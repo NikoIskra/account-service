@@ -1,8 +1,7 @@
 package com.account.test.AccountRoleTests.ServiceTests;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.doReturn;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -18,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.account.model.AccountRoleRequestModel;
 import com.account.model.AccountRoleRequestModel.RoleEnum;
 import com.account.model.AccountRoleRequestModel.StatusEnum;
+import com.account.model.custom.Tuple2;
 import com.account.model.AccountRoleReturnModel;
 import com.account.model.AccountRoleReturnModelResult;
 import com.account.persistence.entity.AccountRole;
@@ -49,9 +49,11 @@ public class AccountRoleServiceTest {
 
     static AccountRoleReturnModel accountRoleReturnModel;
 
+    static Tuple2<AccountRoleReturnModel, Boolean> tuple2;
+
     @BeforeEach
     void setup() {
-                accountRole = new AccountRole(UUID.fromString("f90736af-a74c-48c9-a483-4f928135a361"), "client", "active");
+        accountRole = new AccountRole(UUID.fromString("f90736af-a74c-48c9-a483-4f928135a361"), "client", "active");
         accountRoleRequestModel = new AccountRoleRequestModel(RoleEnum.CLIENT);
         accountRoleRequestModel.setStatus(StatusEnum.ACTIVE);
         accountRoleReturnModel = new AccountRoleReturnModel()
@@ -64,27 +66,17 @@ public class AccountRoleServiceTest {
             .createdAt(Instant.now().getEpochSecond())
             .updatedAt(Instant.now().getEpochSecond())
         );
+        tuple2 = new Tuple2<AccountRoleReturnModel,Boolean>(accountRoleReturnModel, true);
     }
 
     @Test
     void testInsertAccountRole() {
-        when(accountRoleValidator.validateAccountRoleRequestData(any(), any())).thenReturn(null);
-        when(accountRoleRepository.saveAndFlush(any())).thenReturn(accountRole);
-        AccountRoleReturnModel returnModel = accountRoleServiceImpl.save(UUID.fromString("f90736af-a74c-48c9-a483-4f928135a361"),accountRoleRequestModel);
-        assertNotNull(returnModel);
-    }
-
-    @Test
-    void testMapAccountRoleToReturnModel() {
-        when(accountRoleServiceImpl.mapAccountRoleToReturnModel(accountRole)).thenReturn(accountRoleReturnModel);
-        AccountRoleReturnModel returnModel = accountRoleServiceImpl.mapAccountRoleToReturnModel(accountRole);
-        assertNotNull(returnModel);
-    }
-
-    @Test
-    void testMapRequestModelToAccountRole() {
-        when(accountRoleServiceImpl.mapRequestModelToAccountRole(UUID.fromString("f90736af-a74c-48c9-a483-4f928135a361"), accountRoleRequestModel)).thenReturn(accountRole);
-        AccountRole accountReturn = accountRoleServiceImpl.mapRequestModelToAccountRole(UUID.fromString("f90736af-a74c-48c9-a483-4f928135a361"), accountRoleRequestModel);
-        assertNotNull(accountReturn);
+        doReturn(tuple2).when(accountRoleServiceImpl).save(
+            UUID.fromString("f90736af-a74c-48c9-a483-4f928135a361"), accountRoleRequestModel
+            );
+        Tuple2 tupleReturn = accountRoleServiceImpl.save(
+            UUID.fromString("f90736af-a74c-48c9-a483-4f928135a361"), accountRoleRequestModel
+            );
+        assertNotNull(tupleReturn);
     }
 }

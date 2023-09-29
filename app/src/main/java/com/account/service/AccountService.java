@@ -5,5 +5,4 @@ import com.account.model.ReturnModel;
 
 public interface AccountService {
     ReturnModel save (RequestModel account);
-
 }

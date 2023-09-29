@@ -15,7 +15,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Propagation;
 
-import com.account.persistence.entity.Account;
 import com.account.persistence.entity.AccountRole;
 import com.account.persistence.repository.AccountRoleRepository;
 
