@@ -1,4 +1,4 @@
-package com.account.test.AccountRoleTests.ControllerTests;
+package com.account.test.account_role_tests.controler;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 

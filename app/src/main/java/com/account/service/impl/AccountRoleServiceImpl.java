@@ -1,5 +1,7 @@
 package com.account.service.impl;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -55,15 +57,25 @@ public class AccountRoleServiceImpl implements AccountRoleService {
     public Tuple2<AccountRoleReturnModel, Boolean> save(UUID accountID, AccountRoleRequestModel accountRoleRequestModel) {
         Tuple2<AccountRoleReturnModel, Boolean> returnTuple = new Tuple2<AccountRoleReturnModel,Boolean>(null, true);
         accountRoleValidator.validateAccountRoleRequestData(accountID, accountRoleRequestModel);
-        if (accountRoleRepository.existsByAccountIDAndRoleAndStatus(accountID,
-                accountRoleRequestModel.getRole().getValue(), accountRoleRequestModel.getStatus().getValue())) {
-            AccountRole accountRoleToReturn = accountRoleRepository.findByAccountIDAndRoleAndStatus(accountID, accountRoleRequestModel.getRole().getValue(), accountRoleRequestModel.getStatus().getValue()).get();
+        List<AccountRole> accountRoles = accountRoleRepository.findAll();
+        Optional<AccountRole> accountRoleFilterByIDRoleAndStatus = accountRoles.stream()
+            .filter(
+                a -> a.getAccountID().equals(accountID) && a.getRole().equals(accountRoleRequestModel.getRole().getValue()) && a.getStatus().equals(accountRoleRequestModel.getStatus().getValue())
+            )
+            .findFirst();
+        Optional<AccountRole> accountRoleFilteredByIDAndRole = accountRoles.stream()
+            .filter(
+                a -> a.getAccountID().equals(accountID) && a.getRole().equals(accountRoleRequestModel.getRole().getValue())
+            )
+            .findFirst();
+        if (accountRoleFilterByIDRoleAndStatus.isPresent()) {
+            AccountRole accountRoleToReturn = accountRoleFilterByIDRoleAndStatus.get();
             entityManager.refresh(accountRoleToReturn);
             returnTuple.setFirst(mapAccountRoleToReturnModel(accountRoleToReturn));
             return returnTuple;
-        } else if (accountRoleRepository.existsByAccountIDAndRole(accountID,
-                accountRoleRequestModel.getRole().getValue())) {
-            AccountRole accountRoleToUpdate = accountRoleRepository.findByAccountIDAndRole(accountID, accountRoleRequestModel.getRole().getValue()).get();
+        }
+        else if (accountRoleFilteredByIDAndRole.isPresent()) {
+            AccountRole accountRoleToUpdate = accountRoleFilteredByIDAndRole.get();
             accountRoleToUpdate.setStatus(accountRoleRequestModel.getStatus().getValue());
             accountRoleRepository.saveAndFlush(accountRoleToUpdate);
             entityManager.refresh(accountRoleToUpdate);

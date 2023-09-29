@@ -1,4 +1,4 @@
-package com.account.test.AccountTests.RepositoryTests;
+package com.account.test.account_tests.repository;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -22,7 +22,7 @@ import com.account.persistence.repository.AccountRepository;
 @DataJpaTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 @org.springframework.transaction.annotation.Transactional(propagation = Propagation.NOT_SUPPORTED)
-public class JPAAccountTest {
+public class AccountRepositoryTest {
 
 
   @Autowired

@@ -1,4 +1,4 @@
-package com.account.test.AccountRoleTests.ServiceTests;
+package com.account.test.account_role_tests.service;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.doReturn;

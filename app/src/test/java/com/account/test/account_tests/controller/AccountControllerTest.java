@@ -1,4 +1,4 @@
-package com.account.test.AccountTests.ControllerTests;
+package com.account.test.account_tests.controller;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;

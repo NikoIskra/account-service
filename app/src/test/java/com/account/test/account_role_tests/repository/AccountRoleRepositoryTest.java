@@ -1,4 +1,4 @@
-package com.account.test.AccountRoleTests.RepositoryTests;
+package com.account.test.account_role_tests.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -21,7 +21,7 @@ import com.account.persistence.repository.AccountRoleRepository;
 @DataJpaTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 @org.springframework.transaction.annotation.Transactional(propagation = Propagation.NOT_SUPPORTED)
-public class JPAAccountRoleTest {
+public class AccountRoleRepositoryTest {
     
     @Autowired
     AccountRoleRepository accountRoleRepository;
