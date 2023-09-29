@@ -1,4 +1,4 @@
-package com.account.test.account_role_tests.repository;
+package com.account.persistence.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;

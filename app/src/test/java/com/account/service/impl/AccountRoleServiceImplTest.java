@@ -1,4 +1,4 @@
-package com.account.test.account_role_tests.service;
+package com.account.service.impl;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.doReturn;
@@ -28,7 +28,7 @@ import com.account.service.impl.AccountRoleServiceImpl;
 import jakarta.persistence.EntityManager;
 
 @ExtendWith(MockitoExtension.class)
-public class AccountRoleServiceTest {
+public class AccountRoleServiceImplTest {
 
     @Mock
     AccountRoleRepository accountRoleRepository;

@@ -1,4 +1,4 @@
-package com.account.test.account_tests.service;
+package com.account.service;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;

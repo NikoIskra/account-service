@@ -57,7 +57,7 @@ public class AccountRoleServiceImpl implements AccountRoleService {
     public Tuple2<AccountRoleReturnModel, Boolean> save(UUID accountID, AccountRoleRequestModel accountRoleRequestModel) {
         Tuple2<AccountRoleReturnModel, Boolean> returnTuple = new Tuple2<AccountRoleReturnModel,Boolean>(null, true);
         accountRoleValidator.validateAccountRoleRequestData(accountID, accountRoleRequestModel);
-        List<AccountRole> accountRoles = accountRoleRepository.findAll();
+        List<AccountRole> accountRoles = accountRoleRepository.findAllByAccountID(accountID);
         Optional<AccountRole> accountRoleFilterByIDRoleAndStatus = accountRoles.stream()
             .filter(
                 a -> a.getAccountID().equals(accountID) && a.getRole().equals(accountRoleRequestModel.getRole().getValue()) && a.getStatus().equals(accountRoleRequestModel.getStatus().getValue())

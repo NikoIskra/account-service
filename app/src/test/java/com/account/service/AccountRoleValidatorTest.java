@@ -1,4 +1,4 @@
-package com.account.test.account_role_tests.service;
+package com.account.service;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.Mockito.doNothing;
