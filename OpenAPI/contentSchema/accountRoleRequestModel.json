@@ -1,0 +1,17 @@
+{
+    "type" : "object",
+    "required" : [
+        "role"
+    ],
+    "properties" : {
+        "role" : {
+            "type" : "string",
+            "enum" : ["client", "provider", "delivery", "manager"]
+        },
+        "status" : {
+            "type" : "string",
+            "enum" : ["active", "revoked"],
+            "default" : "active"
+        }
+    }
+}

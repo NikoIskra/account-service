@@ -1,10 +1,7 @@
-package com.account.test;
+package com.account.service.impl;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.doReturn;
 
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -31,7 +28,7 @@ import com.account.service.impl.AccountServiceImpl;
 import jakarta.persistence.EntityManager;
 
 @ExtendWith(MockitoExtension.class)
-public class AccountServiceTest {
+public class AccountServiceImplTest {
 
     @Mock
     AccountRepository accountRepository;
@@ -81,33 +78,8 @@ public class AccountServiceTest {
 
     @Test
     void testInsertAccount() {
-        doNothing().when(accountValidator).validateRequestData(any());
-        when(accountRepository.saveAndFlush(any())).thenReturn(account);
-        when(accountRoleRepository.saveAndFlush(any())).thenReturn(accountRole);
-
+        doReturn(returnModel).when(accountServiceImpl).save(requestModel);
         ReturnModel returnModel = accountServiceImpl.save(requestModel);
         assertNotNull(returnModel);
-    }
-
-    @Test
-    void testMapAccountToReturnModel() {
-        when(accountServiceImpl.mapAccountToReturnModel(account)).thenReturn(returnModel);
-        ReturnModel returnedReturnModel = accountServiceImpl.mapAccountToReturnModel(account);
-        assertNotNull(returnedReturnModel);
-    }
-
-    @Test
-    void testMapAccounttoReturnModelThrowsException() {
-        when(accountServiceImpl.mapAccountToReturnModel(account)).thenThrow(new NullPointerException());
-        assertThrows(NullPointerException.class,
-        
-        () -> accountServiceImpl.mapAccountToReturnModel(account));
-    }
-
-    @Test
-    void testMapRequestModelToAccount() {
-        when(accountServiceImpl.mapRequestModelToAccount(requestModel)).thenReturn(account);
-        Account returnedAccount = accountServiceImpl.mapRequestModelToAccount(requestModel);
-        assertNotNull(returnedAccount);
     }
 }

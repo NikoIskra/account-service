@@ -1,4 +1,4 @@
-package com.account.test;
+package com.account.service;
 
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 

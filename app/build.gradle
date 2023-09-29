@@ -55,6 +55,7 @@ java {
     }
 }
 
+
 application {
     // Define the main class for the application.
     mainClass = 'practicetask.App'

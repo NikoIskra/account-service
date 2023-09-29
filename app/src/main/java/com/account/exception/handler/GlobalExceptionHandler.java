@@ -12,6 +12,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.account.exception.BadRequestException;
 import com.account.exception.ConflictException;
+import com.account.exception.NotFoundException;
 import com.account.model.ErrorResponse;
 
 @ControllerAdvice
@@ -31,6 +32,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         .ok(false)
         .errorMessage(ex.getMessage());
         return new ResponseEntity<ErrorResponse> (errorResponse, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler
+    protected ResponseEntity<ErrorResponse> handleNotFoundException (NotFoundException ex) {
+        ErrorResponse errorResponse = new ErrorResponse()
+        .ok(false)
+        .errorMessage(ex.getMessage());
+        return new ResponseEntity<ErrorResponse> (errorResponse, HttpStatus.NOT_FOUND);
     }
 
     @Override

@@ -1,0 +1,30 @@
+{
+    "properties" : {
+        "ok" : {
+            "type":"boolean"
+        },
+        "result" : {
+            "type" : "object",
+            "properties" : {
+                "id" : {
+                    "type" : "string",
+                    "format" : "uuid"
+                },
+                "role" : {
+                    "type" : "string"
+                },
+                "status" : {
+                    "type" : "string"
+                },
+                "createdAt" : {
+                    "type" : "integer",
+                    "format" : "int64"
+                },
+                "updatedAt" : {
+                    "type" : "integer",
+                    "format" : "int64"
+                }
+            }
+        }
+    }
+}
