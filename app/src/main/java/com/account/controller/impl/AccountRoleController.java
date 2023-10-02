@@ -13,6 +13,7 @@ import com.account.controller.RoleApi;
 import com.account.model.AccountRoleIDReturnModel;
 import com.account.model.AccountRoleRequestModel;
 import com.account.model.AccountRoleReturnModel;
+import com.account.model.RoleEnum;
 import com.account.model.custom.Tuple2;
 import com.account.service.AccountRoleService;
 
@@ -39,7 +40,7 @@ public class AccountRoleController implements RoleApi {
     }
 
     @Override
-    public ResponseEntity<AccountRoleIDReturnModel> apiV1AccountAccountIdRoleRoleGet(UUID accountId, String role)
+    public ResponseEntity<AccountRoleIDReturnModel> apiV1AccountAccountIdRoleRoleGet(UUID accountId, RoleEnum role)
             throws Exception {
         AccountRoleIDReturnModel accountRoleIDReturnModel = accountRoleService.get(accountId, role);
         return ResponseEntity.status(HttpStatus.OK).body(accountRoleIDReturnModel);

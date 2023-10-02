@@ -14,7 +14,7 @@ import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.account.model.AccountRoleRequestModel;
-import com.account.model.AccountRoleRequestModel.RoleEnum;
+import com.account.model.RoleEnum;
 import com.account.model.AccountRoleRequestModel.StatusEnum;
 import com.account.persistence.repository.AccountRoleRepository;
 import com.account.service.AccountRoleValidator;

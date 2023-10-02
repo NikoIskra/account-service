@@ -2,6 +2,7 @@ package com.account.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.account.model.RoleEnum;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -22,45 +23,6 @@ import jakarta.annotation.Generated;
 @JsonTypeName("accountRoleRequestModel")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class AccountRoleRequestModel {
-
-  /**
-   * Gets or Sets role
-   */
-  public enum RoleEnum {
-    CLIENT("client"),
-    
-    PROVIDER("provider"),
-    
-    DELIVERY("delivery"),
-    
-    MANAGER("manager");
-
-    private String value;
-
-    RoleEnum(String value) {
-      this.value = value;
-    }
-
-    @JsonValue
-    public String getValue() {
-      return value;
-    }
-
-    @Override
-    public String toString() {
-      return String.valueOf(value);
-    }
-
-    @JsonCreator
-    public static RoleEnum fromValue(String value) {
-      for (RoleEnum b : RoleEnum.values()) {
-        if (b.value.equals(value)) {
-          return b;
-        }
-      }
-      throw new IllegalArgumentException("Unexpected value '" + value + "'");
-    }
-  }
 
   private RoleEnum role;
 
@@ -126,7 +88,7 @@ public class AccountRoleRequestModel {
    * Get role
    * @return role
   */
-  @NotNull 
+  @NotNull @Valid 
   @JsonProperty("role")
   public RoleEnum getRole() {
     return role;

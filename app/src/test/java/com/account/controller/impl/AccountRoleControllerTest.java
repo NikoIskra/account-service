@@ -18,9 +18,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.account.model.AccountRoleRequestModel;
-import com.account.model.AccountRoleRequestModel.RoleEnum;
 import com.account.model.AccountRoleRequestModel.StatusEnum;
 import com.account.model.RequestModel;
+import com.account.model.RoleEnum;
 import com.account.persistence.entity.Account;
 import com.account.persistence.repository.AccountRepository;
 import com.account.persistence.repository.AccountRoleRepository;
@@ -28,6 +28,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 public class AccountRoleControllerTest {
 
     @Autowired
@@ -86,7 +87,7 @@ public class AccountRoleControllerTest {
     @Test
     void testGetAccountRoleWithNoAccount() throws Exception {
         mvc.perform(MockMvcRequestBuilders
-        .get("/api/v1/account/4ba8167d-0825-4eff-bd65-ec233bd7199e/role/delivery")
+        .get("/api/v1/account/4ba8167d-0825-4eff-bd65-ec233bd7199e/role/DELIVERY")
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isNotFound());
     }

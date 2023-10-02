@@ -17,11 +17,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.account.model.AccountRoleIDReturnModel;
 import com.account.model.AccountRoleIDReturnModelResult;
 import com.account.model.AccountRoleRequestModel;
-import com.account.model.AccountRoleRequestModel.RoleEnum;
 import com.account.model.AccountRoleRequestModel.StatusEnum;
 import com.account.model.custom.Tuple2;
 import com.account.model.AccountRoleReturnModel;
 import com.account.model.AccountRoleReturnModelResult;
+import com.account.model.RoleEnum;
 import com.account.persistence.entity.AccountRole;
 import com.account.persistence.repository.AccountRoleRepository;
 import com.account.service.AccountRoleValidator;
@@ -89,8 +89,8 @@ public class AccountRoleServiceImplTest {
 
     @Test
     void testGetAccountRole() {
-        doReturn(accountRoleIDReturnModel).when(accountRoleServiceImpl).get(UUID.fromString("f90736af-a74c-48c9-a483-4f928135a361"), "client");
-        AccountRoleIDReturnModel returnModel = accountRoleServiceImpl.get(UUID.fromString("f90736af-a74c-48c9-a483-4f928135a361"), "client");
+        doReturn(accountRoleIDReturnModel).when(accountRoleServiceImpl).get(UUID.fromString("f90736af-a74c-48c9-a483-4f928135a361"), RoleEnum.CLIENT);
+        AccountRoleIDReturnModel returnModel = accountRoleServiceImpl.get(UUID.fromString("f90736af-a74c-48c9-a483-4f928135a361"), RoleEnum.CLIENT);
         assertNotNull(returnModel);
     }
 }

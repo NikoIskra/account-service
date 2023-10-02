@@ -12,6 +12,7 @@ import com.account.model.AccountRoleIDReturnModelResult;
 import com.account.model.AccountRoleRequestModel;
 import com.account.model.AccountRoleReturnModel;
 import com.account.model.AccountRoleReturnModelResult;
+import com.account.model.RoleEnum;
 import com.account.model.custom.Tuple2;
 import com.account.persistence.entity.AccountRole;
 import com.account.persistence.repository.AccountRoleRepository;
@@ -94,9 +95,9 @@ public class AccountRoleServiceImpl implements AccountRoleService {
     }
 
     @Override
-    public AccountRoleIDReturnModel get(UUID accountId, String role) {
-        accountRoleValidator.validateAccountRoleGetRequest(accountId, role);
-        AccountRole accountRole = accountRoleRepository.findByAccountIDAndRole(accountId, role).get();
+    public AccountRoleIDReturnModel get(UUID accountId, RoleEnum role) {
+        accountRoleValidator.validateAccountRoleGetRequest(accountId, role.getValue());
+        AccountRole accountRole = accountRoleRepository.findByAccountIDAndRole(accountId, role.getValue()).get();
         return mapAccountRoleToIDReturnModel(accountRole);
     }
 }

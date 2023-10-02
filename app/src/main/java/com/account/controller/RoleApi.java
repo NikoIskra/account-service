@@ -9,6 +9,7 @@ import com.account.model.AccountRoleIDReturnModel;
 import com.account.model.AccountRoleRequestModel;
 import com.account.model.AccountRoleReturnModel;
 import com.account.model.ErrorResponse;
+import com.account.model.RoleEnum;
 import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -69,7 +70,7 @@ public interface RoleApi {
     )
     ResponseEntity<AccountRoleIDReturnModel> apiV1AccountAccountIdRoleRoleGet(
          @PathVariable("account-id") UUID accountId,
-         @PathVariable("role") String role
+         @PathVariable("role") RoleEnum role
     ) throws Exception;
 
 }
