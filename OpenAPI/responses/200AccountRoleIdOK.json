@@ -1,0 +1,17 @@
+{
+    "description": "OK",
+    "headers" : {
+        "Location" : {
+            "schema" : {
+                "type" : "string"
+            }
+        }
+    },
+    "content": {
+        "application/json": {
+            "schema": {
+                "$ref": "../contentSchema/accountRoleIDReturnModel.json"
+            }
+        }
+    }
+}

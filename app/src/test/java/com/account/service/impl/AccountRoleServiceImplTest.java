@@ -14,6 +14,8 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.account.model.AccountRoleIDReturnModel;
+import com.account.model.AccountRoleIDReturnModelResult;
 import com.account.model.AccountRoleRequestModel;
 import com.account.model.AccountRoleRequestModel.RoleEnum;
 import com.account.model.AccountRoleRequestModel.StatusEnum;
@@ -49,6 +51,8 @@ public class AccountRoleServiceImplTest {
 
     static AccountRoleReturnModel accountRoleReturnModel;
 
+    static AccountRoleIDReturnModel accountRoleIDReturnModel;
+
     static Tuple2<AccountRoleReturnModel, Boolean> tuple2;
 
     @BeforeEach
@@ -67,6 +71,9 @@ public class AccountRoleServiceImplTest {
             .updatedAt(Instant.now().getEpochSecond())
         );
         tuple2 = new Tuple2<AccountRoleReturnModel,Boolean>(accountRoleReturnModel, true);
+        AccountRoleIDReturnModelResult accountRoleIDReturnModelResult = new AccountRoleIDReturnModelResult()
+        .roleId(UUID.fromString("f90736af-a74c-48c9-a483-4f928135a361"));
+        accountRoleIDReturnModel = new AccountRoleIDReturnModel().ok(true).result(accountRoleIDReturnModelResult);
     }
 
     @Test
@@ -78,5 +85,12 @@ public class AccountRoleServiceImplTest {
             UUID.fromString("f90736af-a74c-48c9-a483-4f928135a361"), accountRoleRequestModel
             );
         assertNotNull(tupleReturn);
+    }
+
+    @Test
+    void testGetAccountRole() {
+        doReturn(accountRoleIDReturnModel).when(accountRoleServiceImpl).get(UUID.fromString("f90736af-a74c-48c9-a483-4f928135a361"), "client");
+        AccountRoleIDReturnModel returnModel = accountRoleServiceImpl.get(UUID.fromString("f90736af-a74c-48c9-a483-4f928135a361"), "client");
+        assertNotNull(returnModel);
     }
 }

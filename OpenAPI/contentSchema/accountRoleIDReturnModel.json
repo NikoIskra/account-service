@@ -1,0 +1,16 @@
+{
+    "properties" : {
+        "ok" : {
+            "type":"boolean"
+        },
+        "result" : {
+            "type" : "object",
+            "properties" : {
+                "roleId" : {
+                    "type" : "string",
+                    "format" : "uuid"
+                }
+            }
+        }
+    }
+}

@@ -1,6 +1,7 @@
 package com.account.service;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 
 import java.util.UUID;
@@ -32,10 +33,18 @@ public class AccountRoleValidatorTest {
             .status(StatusEnum.REVOKED);
 
     @Test
-    void testValidateAccountRole() {
+    void testValidateAccountRoleRequestData() {
         doNothing().when(accountRoleValidator).validateAccountRoleRequestData(UUID.fromString("f90736af-a74c-48c9-a483-4f928135a361"), accountRoleRequestModel);
         assertDoesNotThrow(
             () -> accountRoleValidator.validateAccountRoleRequestData(UUID.fromString("f90736af-a74c-48c9-a483-4f928135a361"), accountRoleRequestModel) 
+        );
+    }
+
+    @Test
+    void testValidateAccountRoleGetRequest() {
+        doNothing().when(accountRoleValidator).validateAccountRoleGetRequest(UUID.fromString("f90736af-a74c-48c9-a483-4f928135a361"), "client");
+        assertDoesNotThrow(
+            () -> accountRoleValidator.validateAccountRoleGetRequest(UUID.fromString("f90736af-a74c-48c9-a483-4f928135a361"), "client")
         );
     }
 }

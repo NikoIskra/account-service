@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.account.controller.RoleApi;
+import com.account.model.AccountRoleIDReturnModel;
 import com.account.model.AccountRoleRequestModel;
 import com.account.model.AccountRoleReturnModel;
 import com.account.model.custom.Tuple2;
@@ -35,5 +36,12 @@ public class AccountRoleController implements RoleApi {
         returnHeaders.set("Location", headerString);
         Integer statusCode = tuple2.getSecond() ? 200 : 201;
         return ResponseEntity.status(HttpStatus.valueOf(statusCode)).headers(returnHeaders).body(accountRoleReturnModel);
+    }
+
+    @Override
+    public ResponseEntity<AccountRoleIDReturnModel> apiV1AccountAccountIdRoleRoleGet(UUID accountId, String role)
+            throws Exception {
+        AccountRoleIDReturnModel accountRoleIDReturnModel = accountRoleService.get(accountId, role);
+        return ResponseEntity.status(HttpStatus.OK).body(accountRoleIDReturnModel);
     }
 }
