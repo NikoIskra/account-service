@@ -1,6 +1,8 @@
 package com.account.controller.impl;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +13,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.account.model.AccountRoleRequestModel;
-import com.account.model.AccountRoleRequestModel.RoleEnum;
 import com.account.model.AccountRoleRequestModel.StatusEnum;
 import com.account.model.RequestModel;
+import com.account.model.RoleEnum;
 import com.account.persistence.entity.Account;
 import com.account.persistence.repository.AccountRepository;
 import com.account.persistence.repository.AccountRoleRepository;
@@ -78,5 +82,13 @@ public class AccountRoleControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(validAccountRoleRequestModel)))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void testGetAccountRoleWithNoAccount() throws Exception {
+        mvc.perform(MockMvcRequestBuilders
+        .get("/api/v1/account/4ba8167d-0825-4eff-bd65-ec233bd7199e/role/DELIVERY")
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound());
     }
 }

@@ -7,9 +7,12 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import com.account.exception.BadRequestException;
+import com.account.model.AccountRoleIDReturnModel;
+import com.account.model.AccountRoleIDReturnModelResult;
 import com.account.model.AccountRoleRequestModel;
 import com.account.model.AccountRoleReturnModel;
 import com.account.model.AccountRoleReturnModelResult;
+import com.account.model.RoleEnum;
 import com.account.model.custom.Tuple2;
 import com.account.persistence.entity.AccountRole;
 import com.account.persistence.repository.AccountRoleRepository;
@@ -42,14 +45,13 @@ public class AccountRoleServiceImpl implements AccountRoleService {
                 .id(accountRole.getId())
                 .role(accountRole.getRole())
                 .status(accountRole.getStatus());
-
-        if (accountRole.getCreatedAt() != null) {
-            returnModelResult.setCreatedAt(accountRole.getCreatedAt().getTime());
-        }
-        if (accountRole.getUpdatedAt() != null) {
-            returnModelResult.setUpdatedAt(accountRole.getUpdatedAt().getTime());
-        }
         return new AccountRoleReturnModel().ok(true).result(returnModelResult);
+    }
+
+    private AccountRoleIDReturnModel mapAccountRoleToIDReturnModel (AccountRole accountRole) {
+        AccountRoleIDReturnModelResult accountRoleIDReturnModelResult = new AccountRoleIDReturnModelResult()
+        .roleId(accountRole.getId());
+        return new AccountRoleIDReturnModel().ok(true).result(accountRoleIDReturnModelResult);
     }
 
     @Override
@@ -90,5 +92,12 @@ public class AccountRoleServiceImpl implements AccountRoleService {
             returnTuple.setSecond(false);
             return returnTuple;
         }
+    }
+
+    @Override
+    public AccountRoleIDReturnModel get(UUID accountId, RoleEnum role) {
+        accountRoleValidator.validateAccountRoleGetRequest(accountId, role.getValue());
+        AccountRole accountRole = accountRoleRepository.findByAccountIDAndRole(accountId, role.getValue()).get();
+        return mapAccountRoleToIDReturnModel(accountRole);
     }
 }

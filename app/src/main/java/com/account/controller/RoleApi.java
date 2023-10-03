@@ -5,9 +5,11 @@
  */
 package com.account.controller;
 
+import com.account.model.AccountRoleIDReturnModel;
 import com.account.model.AccountRoleRequestModel;
 import com.account.model.AccountRoleReturnModel;
 import com.account.model.ErrorResponse;
+import com.account.model.RoleEnum;
 import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -49,6 +51,26 @@ public interface RoleApi {
     ResponseEntity<AccountRoleReturnModel> apiV1AccountAccountIdRolePost(
          @PathVariable("account-id") UUID accountId,
          @Valid @RequestBody AccountRoleRequestModel accountRoleRequestModel
+    ) throws Exception;
+
+
+    /**
+     * GET /api/v1/account/{account-id}/role/{role}
+     * Returns account role id for given account id and role
+     *
+     * @param accountId Id of account to get account role id (required)
+     * @param role Role of account to get account role id (required)
+     * @return OK (status code 200)
+     *         or Account doesn&#39;t exist (status code 404)
+     */
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = "/api/v1/account/{account-id}/role/{role}",
+        produces = { "application/json" }
+    )
+    ResponseEntity<AccountRoleIDReturnModel> apiV1AccountAccountIdRoleRoleGet(
+         @PathVariable("account-id") UUID accountId,
+         @PathVariable("role") RoleEnum role
     ) throws Exception;
 
 }

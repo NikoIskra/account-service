@@ -98,6 +98,43 @@
           }
         }
       }
+    },
+    "/api/v1/account/{account-id}/role/{role}": {
+      "get" : {
+        "description": "Returns account role id for given account id and role",
+        "tags" : [
+          "role"
+        ],
+        "parameters": [
+          {
+            "name": "account-id",
+            "in": "path",
+            "description": "Id of account to get account role id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "role",
+            "in": "path",
+            "description": "Role of account to get account role id",
+            "required": true,
+            "schema": {
+              "$ref" : "contentSchema/enums/roleEnum.json"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "responses/200AccountRoleIdOK.json"
+          },
+          "404": {
+            "$ref": "responses/404AccountRoleNotFound.json"
+          }
+        }
+      }
     }
   }
 }

@@ -5,8 +5,7 @@
     ],
     "properties" : {
         "role" : {
-            "type" : "string",
-            "enum" : ["client", "provider", "delivery", "manager"]
+            "$ref" : "enums/roleEnum.json"
         },
         "status" : {
             "type" : "string",
