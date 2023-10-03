@@ -62,12 +62,12 @@ public class AccountRoleServiceImpl implements AccountRoleService {
         List<AccountRole> accountRoles = accountRoleRepository.findAllByAccountID(accountID);
         Optional<AccountRole> accountRoleFilterByIDRoleAndStatus = accountRoles.stream()
             .filter(
-                a -> a.getAccountID().equals(accountID) && a.getRole().equals(accountRoleRequestModel.getRole().getValue()) && a.getStatus().equals(accountRoleRequestModel.getStatus().getValue())
+                a -> a.getRole().equals(accountRoleRequestModel.getRole().getValue()) && a.getStatus().equals(accountRoleRequestModel.getStatus().getValue())
             )
             .findFirst();
         Optional<AccountRole> accountRoleFilteredByIDAndRole = accountRoles.stream()
             .filter(
-                a -> a.getAccountID().equals(accountID) && a.getRole().equals(accountRoleRequestModel.getRole().getValue())
+                a -> a.getRole().equals(accountRoleRequestModel.getRole().getValue())
             )
             .findFirst();
         if (accountRoleFilterByIDRoleAndStatus.isPresent()) {
