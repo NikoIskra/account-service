@@ -27,19 +27,27 @@ public class AccountValidatorTest {
 
     RequestModel requestModel = new RequestModel("email", "password");
 
+    private static RequestModel createRequestModel() {
+        RequestModel requestModel = new RequestModel();
+        requestModel.setEmail("testmail@gmail.com");
+        return requestModel;
+    }
+
     @Test
-    void testValidateAccountNoException() {
+    void testValidateRequestData() {
         when(accountRepository.existsByEmail(anyString())).thenReturn(false);
+        RequestModel requestModel = createRequestModel();
         assertDoesNotThrow(
             () -> accountValidator.validateRequestData(requestModel)
         );
     }
 
     @Test
-    void testValidateAccountThrowsException() {
+    void testValidateRequestData_conflict() {
         when(accountRepository.existsByEmail(anyString())).thenReturn(true);
+        RequestModel requestModel = createRequestModel();
         assertThrows(ConflictException.class,
-        () -> accountValidator.validateRequestData(requestModel)
+            () -> accountValidator.validateRequestData(requestModel)
         );
     }
 }

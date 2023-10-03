@@ -1,7 +1,13 @@
 package com.account.service.impl;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.when;
 
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -42,44 +48,49 @@ public class AccountServiceImplTest {
     @Mock
     EntityManager entityManager;
 
-    @Spy
     @InjectMocks
     AccountServiceImpl accountServiceImpl;
 
-    static Account account;
+    private static final UUID uuid = UUID.fromString("ec73eca8-1e43-4c0d-b5a7-588b3c0e3c9c");
 
-    static AccountRole accountRole;
-
-    static ReturnModel returnModel;
-
-    static RequestModel requestModel;
-
-    @BeforeEach
-    void setup() {
-        account = new Account("tesmail", "testusername", "testpassword", "active");
-        account.setId(UUID.fromString("ec73eca8-1e43-4c0d-b5a7-588b3c0e3c9c"));
+    private static Account createAccount() {
+        Account account = new Account();
+        account.setId(uuid);
+        account.setEmail("testmail123@gmail.com");
+        account.setUsername("testusername");
+        account.setStatus("active");
         account.setCreatedAt(Timestamp.from(Instant.now()));
-        accountRole = new AccountRole(UUID.fromString("ec73eca8-1e43-4c0d-b5a7-588b3c0e3c9c"), "client", "active");
-        requestModel = new RequestModel()
-        .email("testmail")
+        return account;
+    }
+
+    private static Account createAccountNoUsername() {
+        Account account = new Account();
+        account.setId(uuid);
+        account.setEmail("testmail123@gmail.com");
+        account.setStatus("active");
+        account.setCreatedAt(Timestamp.from(Instant.now()));
+        return account;
+    }
+
+    private static RequestModel createRequestModel() {
+        RequestModel requestModel = new RequestModel()
+        .email("testmail123@gmail.com")
         .username("testusername")
-        .password("testpass");
-        returnModel = new ReturnModel()
-        .ok(true)
-        .result(
-            new ReturnModelResult()
-            .id(UUID.fromString("ec73eca8-1e43-4c0d-b5a7-588b3c0e3c9c"))
-            .email("testmail")
-            .username("username")
-            .status("active")
-            .createdAt(Instant.now().getEpochSecond())
-        );
+        .password("testpassword");
+        return requestModel;
     }
 
     @Test
     void testInsertAccount() {
-        doReturn(returnModel).when(accountServiceImpl).save(requestModel);
+        RequestModel requestModel = createRequestModel();
+        Account account = createAccount();
+        doNothing().when(accountValidator).validateRequestData(requestModel);
+        doNothing().when(entityManager).refresh(account);
+        when(accountRepository.existsByUsername(anyString())).thenReturn(false);
+        when(accountRepository.saveAndFlush(any())).thenReturn(account);
+        when(accountRoleRepository.saveAndFlush(any())).thenReturn(null);
         ReturnModel returnModel = accountServiceImpl.save(requestModel);
-        assertNotNull(returnModel);
+        assertEquals(requestModel.getUsername(), returnModel.getResult().getUsername());
+        assertEquals(requestModel.getEmail(), returnModel.getResult().getEmail());
     }
 }

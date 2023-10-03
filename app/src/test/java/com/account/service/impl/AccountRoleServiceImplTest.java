@@ -1,9 +1,16 @@
 package com.account.service.impl;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.when;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -41,56 +48,94 @@ public class AccountRoleServiceImplTest {
     @Mock
     EntityManager entityManager;
 
-    @Spy
     @InjectMocks
     AccountRoleServiceImpl accountRoleServiceImpl;
 
-    static AccountRole accountRole;
+    private static final UUID uuid = UUID.fromString("ec73eca8-1e43-4c0d-b5a7-588b3c0e3c9c");
+    
+    private static AccountRoleRequestModel createAccountRoleRequestModel() {
+        AccountRoleRequestModel accountRoleRequestModel = new AccountRoleRequestModel()
+        .role(RoleEnum.CLIENT)
+        .status(StatusEnum.ACTIVE);
+        return accountRoleRequestModel;
+    }
 
-    static AccountRoleRequestModel accountRoleRequestModel;
+    private static AccountRole createAccountRole() {
+        AccountRole accountRole = new AccountRole();
+        accountRole.setId(uuid);
+        accountRole.setAccountID(uuid);
+        accountRole.setRole(RoleEnum.CLIENT.getValue());
+        accountRole.setStatus(StatusEnum.ACTIVE.getValue());
+        return accountRole;
+    }
 
-    static AccountRoleReturnModel accountRoleReturnModel;
+    private static AccountRole createAccountRoleStatusRevoked() {
+        AccountRole accountRole = new AccountRole();
+        accountRole.setId(uuid);
+        accountRole.setAccountID(uuid);
+        accountRole.setRole(RoleEnum.CLIENT.getValue());
+        accountRole.setStatus(StatusEnum.REVOKED.getValue());
+        return accountRole;
+    }
 
-    static AccountRoleIDReturnModel accountRoleIDReturnModel;
 
-    static Tuple2<AccountRoleReturnModel, Boolean> tuple2;
 
-    @BeforeEach
-    void setup() {
-        accountRole = new AccountRole(UUID.fromString("f90736af-a74c-48c9-a483-4f928135a361"), "client", "active");
-        accountRoleRequestModel = new AccountRoleRequestModel(RoleEnum.CLIENT);
-        accountRoleRequestModel.setStatus(StatusEnum.ACTIVE);
-        accountRoleReturnModel = new AccountRoleReturnModel()
-        .ok(true)
-        .result(
-            new AccountRoleReturnModelResult()
-            .id(UUID.fromString("f90736af-a74c-48c9-a483-4f928135a361"))
-            .role("client")
-            .status("active")
-            .createdAt(Instant.now().getEpochSecond())
-            .updatedAt(Instant.now().getEpochSecond())
-        );
-        tuple2 = new Tuple2<AccountRoleReturnModel,Boolean>(accountRoleReturnModel, true);
-        AccountRoleIDReturnModelResult accountRoleIDReturnModelResult = new AccountRoleIDReturnModelResult()
-        .roleId(UUID.fromString("f90736af-a74c-48c9-a483-4f928135a361"));
-        accountRoleIDReturnModel = new AccountRoleIDReturnModel().ok(true).result(accountRoleIDReturnModelResult);
+    @Test
+    void testInsertAccountRole_RoleAndStatusSame() {
+        AccountRole accountRole = createAccountRole();
+        AccountRoleRequestModel accountRoleRequestModel = createAccountRoleRequestModel();
+        List<AccountRole> accountRoles = new ArrayList<>();
+        accountRoles.add(accountRole);
+        doNothing().when(accountRoleValidator).validateAccountRoleRequestData(uuid, accountRoleRequestModel);
+        doNothing().when(entityManager).refresh(any());
+        when(accountRoleRepository.findAllByAccountID(uuid)).thenReturn(accountRoles);
+        Tuple2<AccountRoleReturnModel,Boolean> tuple2 = accountRoleServiceImpl.save(uuid, accountRoleRequestModel);
+        assertEquals(tuple2.getFirst().getResult().getId(), accountRole.getId());
+        assertEquals(tuple2.getFirst().getResult().getRole(), accountRole.getRole());
+        assertEquals(tuple2.getFirst().getResult().getStatus(), accountRole.getStatus());
+        assertEquals(tuple2.getSecond(), true);
+    }
+
+    @Test
+    void testInsertAccountRole_RoleSame() {
+        AccountRole accountRoleUpdate = createAccountRole();
+        AccountRole accountRoleStatusRevoked = createAccountRoleStatusRevoked();
+        AccountRoleRequestModel accountRoleRequestModel = createAccountRoleRequestModel();
+        List<AccountRole> accountRoles = new ArrayList<>();
+        accountRoles.add(accountRoleStatusRevoked);
+        doNothing().when(accountRoleValidator).validateAccountRoleRequestData(uuid, accountRoleRequestModel);
+        doNothing().when(entityManager).refresh(any());
+        when(accountRoleRepository.findAllByAccountID(uuid)).thenReturn(accountRoles);
+        when(accountRoleRepository.saveAndFlush(any())).thenReturn(accountRoleUpdate);
+        Tuple2<AccountRoleReturnModel,Boolean> tuple2 = accountRoleServiceImpl.save(uuid, accountRoleRequestModel);
+        assertEquals(tuple2.getFirst().getResult().getId(), accountRoleUpdate.getId());
+        assertEquals(tuple2.getFirst().getResult().getRole(), accountRoleUpdate.getRole());
+        assertEquals(tuple2.getFirst().getResult().getStatus(), accountRoleUpdate.getStatus());
+        assertEquals(tuple2.getSecond(), true);
     }
 
     @Test
     void testInsertAccountRole() {
-        doReturn(tuple2).when(accountRoleServiceImpl).save(
-            UUID.fromString("f90736af-a74c-48c9-a483-4f928135a361"), accountRoleRequestModel
-            );
-        Tuple2 tupleReturn = accountRoleServiceImpl.save(
-            UUID.fromString("f90736af-a74c-48c9-a483-4f928135a361"), accountRoleRequestModel
-            );
-        assertNotNull(tupleReturn);
+        AccountRole accountRoleUpdate = createAccountRole();
+        AccountRoleRequestModel accountRoleRequestModel = createAccountRoleRequestModel();
+        List<AccountRole> accountRoles = new ArrayList<>();
+        doNothing().when(accountRoleValidator).validateAccountRoleRequestData(uuid, accountRoleRequestModel);
+        doNothing().when(entityManager).refresh(any());
+        when(accountRoleRepository.findAllByAccountID(uuid)).thenReturn(accountRoles);
+        when(accountRoleRepository.saveAndFlush(any())).thenReturn(accountRoleUpdate);
+        Tuple2<AccountRoleReturnModel,Boolean> tuple2 = accountRoleServiceImpl.save(uuid, accountRoleRequestModel);
+        assertEquals(tuple2.getFirst().getResult().getId(), accountRoleUpdate.getId());
+        assertEquals(tuple2.getFirst().getResult().getRole(), accountRoleUpdate.getRole());
+        assertEquals(tuple2.getFirst().getResult().getStatus(), accountRoleUpdate.getStatus());
+        assertEquals(tuple2.getSecond(), false);
     }
-
+    
     @Test
     void testGetAccountRole() {
-        doReturn(accountRoleIDReturnModel).when(accountRoleServiceImpl).get(UUID.fromString("f90736af-a74c-48c9-a483-4f928135a361"), RoleEnum.CLIENT);
-        AccountRoleIDReturnModel returnModel = accountRoleServiceImpl.get(UUID.fromString("f90736af-a74c-48c9-a483-4f928135a361"), RoleEnum.CLIENT);
-        assertNotNull(returnModel);
+        doNothing().when(accountRoleValidator).validateAccountRoleGetRequest(uuid, RoleEnum.CLIENT.getValue());
+        AccountRole accountRole = createAccountRole();
+        when(accountRoleRepository.findByAccountIDAndRole(uuid, RoleEnum.CLIENT.getValue())).thenReturn(Optional.of(accountRole));
+        AccountRoleIDReturnModel accountRoleIDReturnModel = accountRoleServiceImpl.get(uuid, RoleEnum.CLIENT);
+        assertEquals(accountRoleIDReturnModel.getResult().getRoleId(), accountRole.getId());
     }
 }
