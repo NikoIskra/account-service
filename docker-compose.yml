@@ -1,18 +1,27 @@
 services:
-  backend:
-    build: .
-    ports:
-      - 3000:3000
   database:
     image: postgres:14.1-alpine
     restart: always
+    container_name: account-service-database
+    user: postgres
     environment:
-      - POSTGRES_USER=test
-      - POSTGRES_PASSWORD=test
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=account_service_db
+  account-service:
+    build:
+      dockerfile: Dockerfile
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
     ports:
-      - 5432:5432
-    volumes: 
-      - db:/var/lib/postgresql/data
-volumes:
-  db:
-    driver: local
+      - 3000:3000
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/account_service_db
+      - DB_HOST=database
+      - POSTGRES_DB=account_service_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres

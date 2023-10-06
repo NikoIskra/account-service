@@ -1,2 +1,2 @@
 ALTER TABLE account_role
-ADD updated_at timestamp without time zone;
+ADD COLUMN IF NOT EXISTS updated_at timestamp without time zone;
