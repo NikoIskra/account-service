@@ -29,6 +29,7 @@ import com.account.persistence.entity.AccountRole;
 import com.account.persistence.repository.AccountRepository;
 import com.account.persistence.repository.AccountRoleRepository;
 import com.account.service.AccountValidator;
+import com.account.service.EntityConverterService;
 import com.account.service.impl.AccountServiceImpl;
 
 import jakarta.persistence.EntityManager;
@@ -47,6 +48,9 @@ public class AccountServiceImplTest {
 
     @Mock
     EntityManager entityManager;
+
+    @Mock
+    EntityConverterService entityConverterService;
 
     @InjectMocks
     AccountServiceImpl accountServiceImpl;
@@ -80,16 +84,27 @@ public class AccountServiceImplTest {
         return requestModel;
     }
 
+    private static ReturnModel createReturnModel() {
+        ReturnModelResult result = new ReturnModelResult()
+        .email("testmail123@gmail.com")
+        .username("testusername")
+        .id(uuid);
+        return new ReturnModel().ok(true).result(result);
+    }
+
     @Test
     void testInsertAccount() {
         RequestModel requestModel = createRequestModel();
         Account account = createAccount();
+        ReturnModel returnModel = createReturnModel();
         doNothing().when(accountValidator).validateRequestData(requestModel);
         doNothing().when(entityManager).refresh(account);
+        when(entityConverterService.convertRequestModelToAccount(requestModel)).thenReturn(account);
+        when(entityConverterService.convertAccountToReturnModel(account)).thenReturn(returnModel);
         when(accountRepository.existsByUsername(anyString())).thenReturn(false);
         when(accountRepository.saveAndFlush(any())).thenReturn(account);
         when(accountRoleRepository.saveAndFlush(any())).thenReturn(null);
-        ReturnModel returnModel = accountServiceImpl.save(requestModel);
+        accountServiceImpl.save(requestModel);
         assertEquals(requestModel.getUsername(), returnModel.getResult().getUsername());
         assertEquals(requestModel.getEmail(), returnModel.getResult().getEmail());
     }

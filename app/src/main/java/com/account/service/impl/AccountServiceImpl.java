@@ -11,6 +11,7 @@ import com.account.persistence.repository.AccountRepository;
 import com.account.persistence.repository.AccountRoleRepository;
 import com.account.service.AccountService;
 import com.account.service.AccountValidator;
+import com.account.service.EntityConverterService;
 import com.account.service.RandomTextGenerator;
 
 import jakarta.persistence.EntityManager;
@@ -29,25 +30,7 @@ public class AccountServiceImpl implements AccountService {
 
     private final EntityManager entityManager;
 
-    private ReturnModel mapAccountToReturnModel(Account account) {
-        ReturnModelResult returnModelResult = new ReturnModelResult()
-                .id(account.getId())
-                .email(account.getEmail())
-                .username(account.getUsername())
-                .status(account.getStatus());
-        
-        if (account.getCreatedAt() != null) {
-            returnModelResult.setCreatedAt(account.getCreatedAt().getTime());
-        }
-        return new ReturnModel().ok(true).result(returnModelResult);
-    }
-
-    private Account mapRequestModelToAccount(RequestModel requestModel) {
-        Account account = new Account(requestModel.getEmail(), requestModel.getUsername(), requestModel.getPassword(),
-                "active");
-        return account;
-    }
-
+    private final EntityConverterService entityConverter;
 
     @Override
     @Transactional
@@ -59,10 +42,12 @@ public class AccountServiceImpl implements AccountService {
         if (accountRepository.existsByUsername(requestModel.getUsername())) {
             requestModel.setUsername(RandomTextGenerator.addRandomSuffixToUsername(requestModel.getUsername()));
         }
-        Account account = accountRepository.saveAndFlush(mapRequestModelToAccount(requestModel));
+        Account account = entityConverter.convertRequestModelToAccount(requestModel);
+        account.setStatus("active");
+        accountRepository.saveAndFlush(account);
         AccountRole accountRole = new AccountRole(account.getId(), "client", "active");
         accountRoleRepository.saveAndFlush(accountRole);
         entityManager.refresh(account);
-        return mapAccountToReturnModel(account);
+        return entityConverter.convertAccountToReturnModel(account);
     }
 }
