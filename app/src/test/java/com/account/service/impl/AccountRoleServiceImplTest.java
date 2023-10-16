@@ -32,6 +32,7 @@ import com.account.model.RoleEnum;
 import com.account.persistence.entity.AccountRole;
 import com.account.persistence.repository.AccountRoleRepository;
 import com.account.service.AccountRoleValidator;
+import com.account.service.EntityConverterService;
 import com.account.service.impl.AccountRoleServiceImpl;
 
 import jakarta.persistence.EntityManager;
@@ -47,6 +48,9 @@ public class AccountRoleServiceImplTest {
     
     @Mock
     EntityManager entityManager;
+
+    @Mock
+    EntityConverterService entityConverter;
 
     @InjectMocks
     AccountRoleServiceImpl accountRoleServiceImpl;
@@ -78,14 +82,30 @@ public class AccountRoleServiceImplTest {
         return accountRole;
     }
 
+    private static AccountRoleIDReturnModel createAccountRoleIDReturnModel() {
+        AccountRoleIDReturnModelResult result = new AccountRoleIDReturnModelResult()
+        .roleId(uuid);
+        return new AccountRoleIDReturnModel().ok(true).result(result);
+    }
+
+    private static AccountRoleReturnModel createAccountRoleReturnModel() {
+        AccountRoleReturnModelResult result = new AccountRoleReturnModelResult()
+        .id(uuid)
+        .role(RoleEnum.CLIENT.getValue())
+        .status(StatusEnum.ACTIVE.getValue());
+        return new AccountRoleReturnModel().ok(true).result(result);
+    }
+
 
 
     @Test
     void testInsertAccountRole_RoleAndStatusSame() {
         AccountRole accountRole = createAccountRole();
         AccountRoleRequestModel accountRoleRequestModel = createAccountRoleRequestModel();
+        AccountRoleReturnModel accountRoleReturnModel = createAccountRoleReturnModel();
         List<AccountRole> accountRoles = new ArrayList<>();
         accountRoles.add(accountRole);
+        when(entityConverter.convertAccountRoleToReturnModel(accountRole)).thenReturn(accountRoleReturnModel);
         doNothing().when(accountRoleValidator).validateAccountRoleRequestData(uuid, accountRoleRequestModel);
         doNothing().when(entityManager).refresh(any());
         when(accountRoleRepository.findAllByAccountID(uuid)).thenReturn(accountRoles);
@@ -101,8 +121,10 @@ public class AccountRoleServiceImplTest {
         AccountRole accountRoleUpdate = createAccountRole();
         AccountRole accountRoleStatusRevoked = createAccountRoleStatusRevoked();
         AccountRoleRequestModel accountRoleRequestModel = createAccountRoleRequestModel();
+        AccountRoleReturnModel accountRoleReturnModel = createAccountRoleReturnModel();
         List<AccountRole> accountRoles = new ArrayList<>();
         accountRoles.add(accountRoleStatusRevoked);
+        when(entityConverter.convertAccountRoleToReturnModel(accountRoleStatusRevoked)).thenReturn(accountRoleReturnModel);
         doNothing().when(accountRoleValidator).validateAccountRoleRequestData(uuid, accountRoleRequestModel);
         doNothing().when(entityManager).refresh(any());
         when(accountRoleRepository.findAllByAccountID(uuid)).thenReturn(accountRoles);
@@ -118,7 +140,10 @@ public class AccountRoleServiceImplTest {
     void testInsertAccountRole() {
         AccountRole accountRoleUpdate = createAccountRole();
         AccountRoleRequestModel accountRoleRequestModel = createAccountRoleRequestModel();
+        AccountRoleReturnModel accountRoleReturnModel = createAccountRoleReturnModel();
         List<AccountRole> accountRoles = new ArrayList<>();
+        when(entityConverter.convertRequestmodelToAccountRole(uuid, accountRoleRequestModel)).thenReturn(accountRoleUpdate);
+        when(entityConverter.convertAccountRoleToReturnModel(accountRoleUpdate)).thenReturn(accountRoleReturnModel);
         doNothing().when(accountRoleValidator).validateAccountRoleRequestData(uuid, accountRoleRequestModel);
         doNothing().when(entityManager).refresh(any());
         when(accountRoleRepository.findAllByAccountID(uuid)).thenReturn(accountRoles);
@@ -134,8 +159,10 @@ public class AccountRoleServiceImplTest {
     void testGetAccountRole() {
         doNothing().when(accountRoleValidator).validateAccountRoleGetRequest(uuid, RoleEnum.CLIENT.getValue());
         AccountRole accountRole = createAccountRole();
+        AccountRoleIDReturnModel accountRoleIDReturnModel = createAccountRoleIDReturnModel();
+        when(entityConverter.convertAccountRoleToIdReturnModel(accountRole)).thenReturn(accountRoleIDReturnModel);
         when(accountRoleRepository.findByAccountIDAndRole(uuid, RoleEnum.CLIENT.getValue())).thenReturn(Optional.of(accountRole));
-        AccountRoleIDReturnModel accountRoleIDReturnModel = accountRoleServiceImpl.get(uuid, RoleEnum.CLIENT);
-        assertEquals(accountRoleIDReturnModel.getResult().getRoleId(), accountRole.getId());
+        AccountRoleIDReturnModel return2 = accountRoleServiceImpl.get(uuid, RoleEnum.CLIENT);
+        assertEquals(return2.getResult().getRoleId(), accountRole.getId());
     }
 }

@@ -18,6 +18,7 @@ import com.account.persistence.entity.AccountRole;
 import com.account.persistence.repository.AccountRoleRepository;
 import com.account.service.AccountRoleService;
 import com.account.service.AccountRoleValidator;
+import com.account.service.EntityConverterService;
 
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
@@ -33,26 +34,7 @@ public class AccountRoleServiceImpl implements AccountRoleService {
 
     private final AccountRoleValidator accountRoleValidator;
 
-    private AccountRole mapRequestModelToAccountRole(UUID accountID, AccountRoleRequestModel accountRoleRequestModel) {
-        AccountRole accountRole = new AccountRole(accountID, accountRoleRequestModel.getRole().toString(),
-                accountRoleRequestModel.getStatus().toString());
-        return accountRole;
-    }
-
-    private AccountRoleReturnModel mapAccountRoleToReturnModel(AccountRole accountRole) {
-        AccountRoleReturnModelResult returnModelResult;
-        returnModelResult = new AccountRoleReturnModelResult()
-                .id(accountRole.getId())
-                .role(accountRole.getRole())
-                .status(accountRole.getStatus());
-        return new AccountRoleReturnModel().ok(true).result(returnModelResult);
-    }
-
-    private AccountRoleIDReturnModel mapAccountRoleToIDReturnModel (AccountRole accountRole) {
-        AccountRoleIDReturnModelResult accountRoleIDReturnModelResult = new AccountRoleIDReturnModelResult()
-        .roleId(accountRole.getId());
-        return new AccountRoleIDReturnModel().ok(true).result(accountRoleIDReturnModelResult);
-    }
+    private final EntityConverterService entityConverter;
 
     @Override
     @Transactional
@@ -73,22 +55,24 @@ public class AccountRoleServiceImpl implements AccountRoleService {
         if (accountRoleFilterByIDRoleAndStatus.isPresent()) {
             AccountRole accountRoleToReturn = accountRoleFilterByIDRoleAndStatus.get();
             entityManager.refresh(accountRoleToReturn);
-            returnTuple.setFirst(mapAccountRoleToReturnModel(accountRoleToReturn));
+            AccountRoleReturnModel accountRoleReturnModel = entityConverter.convertAccountRoleToReturnModel(accountRoleToReturn);
+            returnTuple.setFirst(accountRoleReturnModel);
             return returnTuple;
         }
         else if (accountRoleFilteredByIDAndRole.isPresent()) {
             AccountRole accountRoleToUpdate = accountRoleFilteredByIDAndRole.get();
             accountRoleToUpdate.setStatus(accountRoleRequestModel.getStatus().getValue());
             accountRoleRepository.saveAndFlush(accountRoleToUpdate);
+            AccountRoleReturnModel accountRoleReturnModel = entityConverter.convertAccountRoleToReturnModel(accountRoleToUpdate);
             entityManager.refresh(accountRoleToUpdate);
-            returnTuple.setFirst(mapAccountRoleToReturnModel(accountRoleToUpdate));
+            returnTuple.setFirst(accountRoleReturnModel);
             return returnTuple;
         } else {
-            AccountRole accountRole = accountRoleRepository
-                    .saveAndFlush(
-                            mapRequestModelToAccountRole(accountID, accountRoleRequestModel));
+            AccountRole accountRole = entityConverter.convertRequestmodelToAccountRole(accountID, accountRoleRequestModel);
+            accountRoleRepository.saveAndFlush(accountRole);
             entityManager.refresh(accountRole);
-            returnTuple.setFirst(mapAccountRoleToReturnModel(accountRole));
+            AccountRoleReturnModel accountRoleReturnModel = entityConverter.convertAccountRoleToReturnModel(accountRole);
+            returnTuple.setFirst(accountRoleReturnModel);
             returnTuple.setSecond(false);
             return returnTuple;
         }
@@ -98,6 +82,7 @@ public class AccountRoleServiceImpl implements AccountRoleService {
     public AccountRoleIDReturnModel get(UUID accountId, RoleEnum role) {
         accountRoleValidator.validateAccountRoleGetRequest(accountId, role.getValue());
         AccountRole accountRole = accountRoleRepository.findByAccountIDAndRole(accountId, role.getValue()).get();
-        return mapAccountRoleToIDReturnModel(accountRole);
+        AccountRoleIDReturnModel accountRoleIDReturnModel = entityConverter.convertAccountRoleToIdReturnModel(accountRole);
+        return accountRoleIDReturnModel;
     }
 }
