@@ -1,95 +1,88 @@
 package com.account.persistence.entity;
 
-import java.sql.Timestamp;
-import java.util.UUID;
-
-import org.hibernate.annotations.UpdateTimestamp;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.sql.Timestamp;
+import java.util.UUID;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "account_role")
 public class AccountRole {
-    @Id
-    @GeneratedValue
-    private UUID id;
+  @Id @GeneratedValue private UUID id;
 
-    @Column(name = "account_id")
-    private UUID accountID;
+  @Column(name = "account_id")
+  private UUID accountID;
 
-    @Column(nullable = false)
-    private String role;
+  @Column(nullable = false)
+  private String role;
 
-    @Column(nullable = false)
-    private String status;
+  @Column(nullable = false)
+  private String status;
 
-    @Column(name = "created_at", insertable = false)
-    private Timestamp createdAt;
+  @Column(name = "created_at", insertable = false)
+  private Timestamp createdAt;
 
-    @Column(name = "updated_at")
-    @UpdateTimestamp
-    private Timestamp updatedAt;
+  @Column(name = "updated_at")
+  @UpdateTimestamp
+  private Timestamp updatedAt;
 
-    public AccountRole() {
-    }
+  public AccountRole() {}
 
-    public AccountRole(UUID accountID, String role, String status) {
-        this.accountID = accountID;
-        this.role = role;
-        this.status = status;
-    }
+  public AccountRole(UUID accountID, String role, String status) {
+    this.accountID = accountID;
+    this.role = role;
+    this.status = status;
+  }
 
-    public UUID getId() {
-        return id;
-    }
+  public UUID getId() {
+    return id;
+  }
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
+  public void setId(UUID id) {
+    this.id = id;
+  }
 
-    public UUID getAccountID() {
-        return accountID;
-    }
+  public UUID getAccountID() {
+    return accountID;
+  }
 
-    public void setAccountID(UUID accountID) {
-        this.accountID = accountID;
-    }
+  public void setAccountID(UUID accountID) {
+    this.accountID = accountID;
+  }
 
-    public String getRole() {
-        return role;
-    }
+  public String getRole() {
+    return role;
+  }
 
-    public void setRole(String role) {
-        this.role = role;
-    }
+  public void setRole(String role) {
+    this.role = role;
+  }
 
-    public String getStatus() {
-        return status;
-    }
+  public String getStatus() {
+    return status;
+  }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+  public void setStatus(String status) {
+    this.status = status;
+  }
 
-    public Timestamp getCreatedAt() {
-        return createdAt;
-    }
+  public Timestamp getCreatedAt() {
+    return createdAt;
+  }
 
-    public void setCreatedAt(Timestamp createdAt) {
-        this.createdAt = createdAt;
-    }
+  public void setCreatedAt(Timestamp createdAt) {
+    this.createdAt = createdAt;
+  }
 
-    public Timestamp getUpdatedAt() {
-        return updatedAt;
-    }
+  public Timestamp getUpdatedAt() {
+    return updatedAt;
+  }
 
-    public void setUpdatedAt(Timestamp updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    
+  public void setUpdatedAt(Timestamp updatedAt) {
+    this.updatedAt = updatedAt;
+  }
 }

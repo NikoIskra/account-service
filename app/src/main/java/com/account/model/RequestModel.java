@@ -1,23 +1,14 @@
 package com.account.model;
 
-import java.net.URI;
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import java.time.OffsetDateTime;
-import jakarta.validation.Valid;
+import jakarta.annotation.Generated;
 import jakarta.validation.constraints.*;
+import java.util.*;
+import java.util.Objects;
 import org.hibernate.validator.constraints.*;
 
-
-import java.util.*;
-import jakarta.annotation.Generated;
-
-/**
- * RequestModel
- */
-
+/** RequestModel */
 @JsonTypeName("requestModel")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class RequestModel {
@@ -30,6 +21,7 @@ public class RequestModel {
 
   /**
    * Default constructor
+   *
    * @deprecated Use {@link RequestModel#RequestModel(String, String)}
    */
   @Deprecated
@@ -37,9 +29,7 @@ public class RequestModel {
     super();
   }
 
-  /**
-   * Constructor with only required parameters
-   */
+  /** Constructor with only required parameters */
   public RequestModel(String email, String password) {
     this.email = email;
     this.password = password;
@@ -52,9 +42,11 @@ public class RequestModel {
 
   /**
    * Get email
+   *
    * @return email
-  */
-  @NotNull @jakarta.validation.constraints.Email
+   */
+  @NotNull
+  @jakarta.validation.constraints.Email
   @JsonProperty("email")
   public String getEmail() {
     return email;
@@ -71,9 +63,12 @@ public class RequestModel {
 
   /**
    * Get password
+   *
    * @return password
-  */
-  @NotNull @Pattern(regexp = "^[a-zA-Z0-9]*$") @Size(min = 8) 
+   */
+  @NotNull
+  @Pattern(regexp = "^[a-zA-Z0-9]*$")
+  @Size(min = 8)
   @JsonProperty("password")
   public String getPassword() {
     return password;
@@ -90,9 +85,10 @@ public class RequestModel {
 
   /**
    * Get username
+   *
    * @return username
-  */
-  @Size(min = 5) 
+   */
+  @Size(min = 5)
   @JsonProperty("username")
   public String getUsername() {
     return username;
@@ -111,9 +107,9 @@ public class RequestModel {
       return false;
     }
     RequestModel requestModel = (RequestModel) o;
-    return Objects.equals(this.email, requestModel.email) &&
-        Objects.equals(this.password, requestModel.password) &&
-        Objects.equals(this.username, requestModel.username);
+    return Objects.equals(this.email, requestModel.email)
+        && Objects.equals(this.password, requestModel.password)
+        && Objects.equals(this.username, requestModel.username);
   }
 
   @Override
@@ -133,8 +129,7 @@ public class RequestModel {
   }
 
   /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
+   * Convert the given object to string with each line indented by 4 spaces (except the first line).
    */
   private String toIndentedString(Object o) {
     if (o == null) {
@@ -143,4 +138,3 @@ public class RequestModel {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

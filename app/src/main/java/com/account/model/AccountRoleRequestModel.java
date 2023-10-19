@@ -1,37 +1,27 @@
 package com.account.model;
 
-import java.net.URI;
-import java.util.Objects;
-import com.account.model.RoleEnum;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import java.time.OffsetDateTime;
+import jakarta.annotation.Generated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
+import java.util.*;
+import java.util.Objects;
 import org.hibernate.validator.constraints.*;
 
-
-import java.util.*;
-import jakarta.annotation.Generated;
-
-/**
- * AccountRoleRequestModel
- */
-
+/** AccountRoleRequestModel */
 @JsonTypeName("accountRoleRequestModel")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class AccountRoleRequestModel {
 
   private RoleEnum role;
 
-  /**
-   * Gets or Sets status
-   */
+  /** Gets or Sets status */
   public enum StatusEnum {
     ACTIVE("active"),
-    
+
     REVOKED("revoked");
 
     private String value;
@@ -65,6 +55,7 @@ public class AccountRoleRequestModel {
 
   /**
    * Default constructor
+   *
    * @deprecated Use {@link AccountRoleRequestModel#AccountRoleRequestModel(RoleEnum)}
    */
   @Deprecated
@@ -72,9 +63,7 @@ public class AccountRoleRequestModel {
     super();
   }
 
-  /**
-   * Constructor with only required parameters
-   */
+  /** Constructor with only required parameters */
   public AccountRoleRequestModel(RoleEnum role) {
     this.role = role;
   }
@@ -86,9 +75,11 @@ public class AccountRoleRequestModel {
 
   /**
    * Get role
+   *
    * @return role
-  */
-  @NotNull @Valid 
+   */
+  @NotNull
+  @Valid
   @JsonProperty("role")
   public RoleEnum getRole() {
     return role;
@@ -105,9 +96,9 @@ public class AccountRoleRequestModel {
 
   /**
    * Get status
+   *
    * @return status
-  */
-  
+   */
   @JsonProperty("status")
   public StatusEnum getStatus() {
     return status;
@@ -126,8 +117,8 @@ public class AccountRoleRequestModel {
       return false;
     }
     AccountRoleRequestModel accountRoleRequestModel = (AccountRoleRequestModel) o;
-    return Objects.equals(this.role, accountRoleRequestModel.role) &&
-        Objects.equals(this.status, accountRoleRequestModel.status);
+    return Objects.equals(this.role, accountRoleRequestModel.role)
+        && Objects.equals(this.status, accountRoleRequestModel.status);
   }
 
   @Override
@@ -146,8 +137,7 @@ public class AccountRoleRequestModel {
   }
 
   /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
+   * Convert the given object to string with each line indented by 4 spaces (except the first line).
    */
   private String toIndentedString(Object o) {
     if (o == null) {
@@ -156,4 +146,3 @@ public class AccountRoleRequestModel {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

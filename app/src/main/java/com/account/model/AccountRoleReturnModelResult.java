@@ -1,24 +1,16 @@
 package com.account.model;
 
-import java.net.URI;
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import java.util.UUID;
-import java.time.OffsetDateTime;
+import jakarta.annotation.Generated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
+import java.util.*;
+import java.util.Objects;
+import java.util.UUID;
 import org.hibernate.validator.constraints.*;
 
-
-import java.util.*;
-import jakarta.annotation.Generated;
-
-/**
- * AccountRoleReturnModelResult
- */
-
+/** AccountRoleReturnModelResult */
 @JsonTypeName("accountRoleReturnModel_result")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class AccountRoleReturnModelResult {
@@ -40,9 +32,10 @@ public class AccountRoleReturnModelResult {
 
   /**
    * Get id
+   *
    * @return id
-  */
-  @Valid 
+   */
+  @Valid
   @JsonProperty("id")
   public UUID getId() {
     return id;
@@ -59,9 +52,9 @@ public class AccountRoleReturnModelResult {
 
   /**
    * Get role
+   *
    * @return role
-  */
-  
+   */
   @JsonProperty("role")
   public String getRole() {
     return role;
@@ -78,9 +71,9 @@ public class AccountRoleReturnModelResult {
 
   /**
    * Get status
+   *
    * @return status
-  */
-  
+   */
   @JsonProperty("status")
   public String getStatus() {
     return status;
@@ -97,9 +90,9 @@ public class AccountRoleReturnModelResult {
 
   /**
    * Get createdAt
+   *
    * @return createdAt
-  */
-  
+   */
   @JsonProperty("createdAt")
   public Long getCreatedAt() {
     return createdAt;
@@ -116,9 +109,9 @@ public class AccountRoleReturnModelResult {
 
   /**
    * Get updatedAt
+   *
    * @return updatedAt
-  */
-  
+   */
   @JsonProperty("updatedAt")
   public Long getUpdatedAt() {
     return updatedAt;
@@ -137,11 +130,11 @@ public class AccountRoleReturnModelResult {
       return false;
     }
     AccountRoleReturnModelResult accountRoleReturnModelResult = (AccountRoleReturnModelResult) o;
-    return Objects.equals(this.id, accountRoleReturnModelResult.id) &&
-        Objects.equals(this.role, accountRoleReturnModelResult.role) &&
-        Objects.equals(this.status, accountRoleReturnModelResult.status) &&
-        Objects.equals(this.createdAt, accountRoleReturnModelResult.createdAt) &&
-        Objects.equals(this.updatedAt, accountRoleReturnModelResult.updatedAt);
+    return Objects.equals(this.id, accountRoleReturnModelResult.id)
+        && Objects.equals(this.role, accountRoleReturnModelResult.role)
+        && Objects.equals(this.status, accountRoleReturnModelResult.status)
+        && Objects.equals(this.createdAt, accountRoleReturnModelResult.createdAt)
+        && Objects.equals(this.updatedAt, accountRoleReturnModelResult.updatedAt);
   }
 
   @Override
@@ -163,8 +156,7 @@ public class AccountRoleReturnModelResult {
   }
 
   /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
+   * Convert the given object to string with each line indented by 4 spaces (except the first line).
    */
   private String toIndentedString(Object o) {
     if (o == null) {
@@ -173,4 +165,3 @@ public class AccountRoleReturnModelResult {
     return o.toString().replace("\n", "\n    ");
   }
 }
-
