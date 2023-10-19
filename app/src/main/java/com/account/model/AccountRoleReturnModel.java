@@ -1,24 +1,15 @@
 package com.account.model;
 
-import java.net.URI;
-import java.util.Objects;
-import com.account.model.AccountRoleReturnModelResult;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import java.time.OffsetDateTime;
+import jakarta.annotation.Generated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
+import java.util.*;
+import java.util.Objects;
 import org.hibernate.validator.constraints.*;
 
-
-import java.util.*;
-import jakarta.annotation.Generated;
-
-/**
- * AccountRoleReturnModel
- */
-
+/** AccountRoleReturnModel */
 @JsonTypeName("accountRoleReturnModel")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class AccountRoleReturnModel {
@@ -34,9 +25,9 @@ public class AccountRoleReturnModel {
 
   /**
    * Get ok
+   *
    * @return ok
-  */
-  
+   */
   @JsonProperty("ok")
   public Boolean isOk() {
     return ok;
@@ -53,9 +44,10 @@ public class AccountRoleReturnModel {
 
   /**
    * Get result
+   *
    * @return result
-  */
-  @Valid 
+   */
+  @Valid
   @JsonProperty("result")
   public AccountRoleReturnModelResult getResult() {
     return result;
@@ -74,8 +66,8 @@ public class AccountRoleReturnModel {
       return false;
     }
     AccountRoleReturnModel accountRoleReturnModel = (AccountRoleReturnModel) o;
-    return Objects.equals(this.ok, accountRoleReturnModel.ok) &&
-        Objects.equals(this.result, accountRoleReturnModel.result);
+    return Objects.equals(this.ok, accountRoleReturnModel.ok)
+        && Objects.equals(this.result, accountRoleReturnModel.result);
   }
 
   @Override
@@ -94,8 +86,7 @@ public class AccountRoleReturnModel {
   }
 
   /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
+   * Convert the given object to string with each line indented by 4 spaces (except the first line).
    */
   private String toIndentedString(Object o) {
     if (o == null) {
@@ -104,4 +95,3 @@ public class AccountRoleReturnModel {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

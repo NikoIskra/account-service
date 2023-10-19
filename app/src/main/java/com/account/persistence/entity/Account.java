@@ -1,111 +1,101 @@
 package com.account.persistence.entity;
 
-import java.sql.Timestamp;
-import java.util.UUID;
-
-import org.hibernate.annotations.UpdateTimestamp;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.sql.Timestamp;
+import java.util.UUID;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
-@Table(name= "account")
+@Table(name = "account")
 public class Account {
-    
-    @Id
-    @GeneratedValue
-    private UUID id;
-    
-    @Column(nullable = false)
-    private String email;
 
-    @Column(nullable = false)
-    private String username;
+  @Id @GeneratedValue private UUID id;
 
-    @Column(nullable = false)
-    private String password;
+  @Column(nullable = false)
+  private String email;
 
-    @Column(nullable = false)
-    private String status;
+  @Column(nullable = false)
+  private String username;
 
-    @Column(name = "created_at", insertable = false)
-    private Timestamp createdAt;
+  @Column(nullable = false)
+  private String password;
 
-    @Column(name = "updated_at")
-    @UpdateTimestamp
-    private Timestamp updatedAt;
+  @Column(nullable = false)
+  private String status;
 
-    
-    public Account() {
-    }
+  @Column(name = "created_at", insertable = false)
+  private Timestamp createdAt;
 
-    
+  @Column(name = "updated_at")
+  @UpdateTimestamp
+  private Timestamp updatedAt;
 
-    public Account(String email, String username, String password, String status) {
-        this.email = email;
-        this.username = username;
-        this.password = password;
-        this.status = status;
-    }
+  public Account() {}
 
-    public UUID getId() {
-        return id;
-    }
+  public Account(String email, String username, String password, String status) {
+    this.email = email;
+    this.username = username;
+    this.password = password;
+    this.status = status;
+  }
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
+  public UUID getId() {
+    return id;
+  }
 
-    public String getEmail() {
-        return email;
-    }
+  public void setId(UUID id) {
+    this.id = id;
+  }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+  public String getEmail() {
+    return email;
+  }
 
-    public String getUsername() {
-        return username;
-    }
+  public void setEmail(String email) {
+    this.email = email;
+  }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+  public String getUsername() {
+    return username;
+  }
 
-    public String getPassword() {
-        return password;
-    }
+  public void setUsername(String username) {
+    this.username = username;
+  }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+  public String getPassword() {
+    return password;
+  }
 
-    public String getStatus() {
-        return status;
-    }
+  public void setPassword(String password) {
+    this.password = password;
+  }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+  public String getStatus() {
+    return status;
+  }
 
-    public Timestamp getCreatedAt() {
-        return createdAt;
-    }
+  public void setStatus(String status) {
+    this.status = status;
+  }
 
-    public void setCreatedAt(Timestamp createdAt) {
-        this.createdAt = createdAt;
-    }
+  public Timestamp getCreatedAt() {
+    return createdAt;
+  }
 
-    public Timestamp getUpdatedAt() {
-        return updatedAt;
-    }
+  public void setCreatedAt(Timestamp createdAt) {
+    this.createdAt = createdAt;
+  }
 
-    public void setUpdatedAt(Timestamp updatedAt) {
-        this.updatedAt = updatedAt;
-    }
+  public Timestamp getUpdatedAt() {
+    return updatedAt;
+  }
 
-    
+  public void setUpdatedAt(Timestamp updatedAt) {
+    this.updatedAt = updatedAt;
+  }
 }

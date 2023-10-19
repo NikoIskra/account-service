@@ -3,9 +3,9 @@ package com.account.persistence.repository;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.account.persistence.entity.AccountRole;
 import java.util.List;
 import java.util.UUID;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
@@ -15,18 +15,14 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Propagation;
 
-import com.account.persistence.entity.AccountRole;
-import com.account.persistence.repository.AccountRoleRepository;
-
 @DataJpaTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 @org.springframework.transaction.annotation.Transactional(propagation = Propagation.NOT_SUPPORTED)
 public class AccountRoleRepositoryTest {
-    
-    @Autowired
-    AccountRoleRepository accountRoleRepository;
 
-    @Test
+  @Autowired AccountRoleRepository accountRoleRepository;
+
+  @Test
   @DirtiesContext
   public void expectEmptyList() {
     List<AccountRole> accounts = accountRoleRepository.findAll();
@@ -36,7 +32,9 @@ public class AccountRoleRepositoryTest {
   @Test
   @DirtiesContext
   public void testInsertToDB() {
-    AccountRole accountRole = new AccountRole(UUID.fromString("26bea1b4-ea70-4df2-836b-3ee2f5cece13"), "client", "active");
+    AccountRole accountRole =
+        new AccountRole(
+            UUID.fromString("26bea1b4-ea70-4df2-836b-3ee2f5cece13"), "client", "active");
     accountRoleRepository.save(accountRole);
     List<AccountRole> accountRoles = accountRoleRepository.findAll();
     assertEquals(1, accountRoles.size());
@@ -45,7 +43,9 @@ public class AccountRoleRepositoryTest {
   @Test
   @DirtiesContext
   public void testDataPersists() {
-    AccountRole accountRole = new AccountRole(UUID.fromString("26bea1b4-ea70-4df2-836b-3ee2f5cece13"), "client", "active");
+    AccountRole accountRole =
+        new AccountRole(
+            UUID.fromString("26bea1b4-ea70-4df2-836b-3ee2f5cece13"), "client", "active");
     accountRoleRepository.save(accountRole);
     AccountRole accountFromDB = accountRoleRepository.findById(accountRole.getId()).get();
     assertEquals(accountRole.getId(), accountFromDB.getId());
@@ -53,14 +53,11 @@ public class AccountRoleRepositoryTest {
     assertEquals(accountRole.getStatus(), accountFromDB.getStatus());
   }
 
-  @Test 
+  @Test
   public void testInsertEmptyAccountRole() {
-    Exception thrown = assertThrows(
-      DataIntegrityViolationException.class,
-       () -> insertEmptyAccountRole()
-    );
+    Exception thrown =
+        assertThrows(DataIntegrityViolationException.class, () -> insertEmptyAccountRole());
   }
-
 
   public void insertEmptyAccountRole() {
     AccountRole accountRole = new AccountRole();

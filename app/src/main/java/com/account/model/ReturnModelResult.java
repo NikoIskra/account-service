@@ -1,24 +1,16 @@
 package com.account.model;
 
-import java.net.URI;
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import java.util.UUID;
-import java.time.OffsetDateTime;
+import jakarta.annotation.Generated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
+import java.util.*;
+import java.util.Objects;
+import java.util.UUID;
 import org.hibernate.validator.constraints.*;
 
-
-import java.util.*;
-import jakarta.annotation.Generated;
-
-/**
- * ReturnModelResult
- */
-
+/** ReturnModelResult */
 @JsonTypeName("returnModel_result")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ReturnModelResult {
@@ -40,9 +32,10 @@ public class ReturnModelResult {
 
   /**
    * Get id
+   *
    * @return id
-  */
-  @Valid 
+   */
+  @Valid
   @JsonProperty("id")
   public UUID getId() {
     return id;
@@ -59,8 +52,9 @@ public class ReturnModelResult {
 
   /**
    * Get email
+   *
    * @return email
-  */
+   */
   @jakarta.validation.constraints.Email
   @JsonProperty("email")
   public String getEmail() {
@@ -78,9 +72,9 @@ public class ReturnModelResult {
 
   /**
    * Get username
+   *
    * @return username
-  */
-  
+   */
   @JsonProperty("username")
   public String getUsername() {
     return username;
@@ -97,9 +91,9 @@ public class ReturnModelResult {
 
   /**
    * Get status
+   *
    * @return status
-  */
-  
+   */
   @JsonProperty("status")
   public String getStatus() {
     return status;
@@ -116,9 +110,9 @@ public class ReturnModelResult {
 
   /**
    * Get createdAt
+   *
    * @return createdAt
-  */
-  
+   */
   @JsonProperty("createdAt")
   public Long getCreatedAt() {
     return createdAt;
@@ -137,11 +131,11 @@ public class ReturnModelResult {
       return false;
     }
     ReturnModelResult returnModelResult = (ReturnModelResult) o;
-    return Objects.equals(this.id, returnModelResult.id) &&
-        Objects.equals(this.email, returnModelResult.email) &&
-        Objects.equals(this.username, returnModelResult.username) &&
-        Objects.equals(this.status, returnModelResult.status) &&
-        Objects.equals(this.createdAt, returnModelResult.createdAt);
+    return Objects.equals(this.id, returnModelResult.id)
+        && Objects.equals(this.email, returnModelResult.email)
+        && Objects.equals(this.username, returnModelResult.username)
+        && Objects.equals(this.status, returnModelResult.status)
+        && Objects.equals(this.createdAt, returnModelResult.createdAt);
   }
 
   @Override
@@ -163,8 +157,7 @@ public class ReturnModelResult {
   }
 
   /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
+   * Convert the given object to string with each line indented by 4 spaces (except the first line).
    */
   private String toIndentedString(Object o) {
     if (o == null) {
@@ -173,4 +166,3 @@ public class ReturnModelResult {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

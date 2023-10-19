@@ -1,9 +1,10 @@
 package com.account.persistence.repository;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.account.persistence.entity.Account;
 import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
@@ -13,20 +14,12 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Propagation;
 
-import com.account.persistence.entity.Account;
-import com.account.persistence.repository.AccountRepository;
-
-
-
-
 @DataJpaTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 @org.springframework.transaction.annotation.Transactional(propagation = Propagation.NOT_SUPPORTED)
 public class AccountRepositoryTest {
 
-
-  @Autowired
-  private AccountRepository accountRepository;
+  @Autowired private AccountRepository accountRepository;
 
   @Test
   @DirtiesContext
@@ -57,18 +50,14 @@ public class AccountRepositoryTest {
     assertEquals(account.getEmail(), accountFromDB.getEmail());
   }
 
-  @Test 
+  @Test
   public void testInsertEmptyAccount() {
-    Exception thrown = assertThrows(
-      DataIntegrityViolationException.class,
-       () -> insertEmptyAccount()
-    );
+    Exception thrown =
+        assertThrows(DataIntegrityViolationException.class, () -> insertEmptyAccount());
   }
-
 
   public void insertEmptyAccount() {
     Account account = new Account();
     accountRepository.save(account);
   }
-
 }
