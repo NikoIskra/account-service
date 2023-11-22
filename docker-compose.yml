@@ -11,6 +11,7 @@ services:
   account-service:
     build:
       dockerfile: Dockerfile
+    container_name: account-service
     deploy:
       restart_policy:
         condition: on-failure
@@ -19,9 +20,20 @@ services:
         window: 120s
     ports:
       - 3000:3000
+    expose:
+      - "3000"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/account_service_db
       - DB_HOST=database
       - POSTGRES_DB=account_service_db
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+    networks:
+      service-network:
+        aliases:
+          - account
+      default:
+networks:
+  service-network:
+    driver: bridge
+    external: true
