@@ -1,0 +1,21 @@
+# @name accountPost
+post http://localhost:3000/api/v1/account
+Content-Type: application/json
+
+{
+    "email": "mail@gmail.com",
+    "username": "username",
+    "password": "password"
+}
+
+###
+
+# @name accountRolePost
+@account_id = {{accountPost.response.body.$.result.$.id}}
+
+post http://localhost:3000/api/v1/account/{{account_id}}/role¸
+Content-Type: application/json
+
+{
+    "role": "provider"
+}
