@@ -3,6 +3,117 @@
 
 Part of a multi module project. Handles accounts and their respective roles.
 
+## Class Diagram
+
+```mermaid
+classDiagram
+    Account <|-- AccountRole
+    Account --|> POI
+    Order <|--OrderItem
+    Account --|> Provider
+    Provider <|-- Item
+    Item <|--SubItem
+    Provider --|> Order
+    Account --|> Order
+    POI <|-- Tag
+    OrderItem <|--Item
+    OrderItem <|-- OrderSubItem
+    OrderSubItem <|-- SubItem
+    Order --|> SQSMessageSender
+    SQSMessageSender --|> SQSMessageListener
+    SQSMessageListener --|> SQSMessageHandler
+    SQSMessageHandler --|> OrderTransitionLog
+    Order --|> OrderTransitionLog
+    Account : +UUID ID
+    Account : +String status
+    Account : +AccountRole role
+    Account: +createAccount()
+    class SQSMessageListener {
+        +SQSMessageHandler Handler
+        +receiveMessage()
+    }
+    class SQSMessageSender {
+        +Order order
+        +amazonSQSAsync.sendMessage()
+    }
+    class SQSMessageHandler {
+        +StageHandler StageHandler
+        +handle()
+    }
+    class OrderTransitionLog {
+        +String ID
+        +Order order
+    }
+    class OrderItem {
+        +Long ID
+        +Long providerItemID
+        +Integer PriceCents
+        +List OrderSubItem
+    }
+    class OrderSubItem{
+        +Long ID
+        +Long providerSubItemID
+        +Integer PriceCents
+        +List OrderSubItem
+    }
+    class Tag {
+        +POI poi
+        +String tag
+    }
+    class AccountRole {
+        +UUID roleID
+        +UUID accountID
+        +String status
+        +createAccountRole()
+        +getAccountRole()
+    }
+    class Provider{
+      +Long ID
+      +UUID accountID
+      +String name
+      +List Item
+      +addProvider()
+      +patchProvider()
+      +getAllProviders()
+      +getAllByTitle()
+    }
+    class Item {
+        +Long ID
+        +String title
+        +Integer PriceCents
+        +List SubItem
+        +addItem()
+        +updateItem()
+        +getItemByID()
+        +getAllByTitle()
+    }
+    class SubItem {
+        +Long ID
+        +String title
+        +Integer PriceCents
+        +getAllByTitle()
+    }
+    class POI{
+      +Long ID
+      +Float latitude
+      +Float longitude
+      +List Tag
+      +getNearestPois()
+      +addPoi()
+      +getPoi()
+      +updatePoi()
+    }
+    class Order{
+      +Long ID
+      +String orderNumber
+      +Long providerID
+      +UUID clientID
+      +Integer totalPriceCents
+      +createOrder()
+      +getOrder()
+    }
+```
+
 ## Features
 
 - Store account data and roles
